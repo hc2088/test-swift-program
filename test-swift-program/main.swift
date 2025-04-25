@@ -3155,3 +3155,42 @@ testFF(dic: nil)
 testFF(dic: ["r4":"123"])
 testFF(dic: ["r4":false])
 
+
+
+class BubbleContainer  {
+ 
+    var data1:Int? {
+        didSet{
+            print("data1修改了")
+            data2 = 100
+        }
+    } 
+    var data2:Int?{
+        didSet{
+            print("data2修改了")
+        }
+    }
+    init(data1: Int? = nil, data2: Int? = nil) {
+        //不触发观察器
+        self.data1 = data1
+        self.data2 = data2
+        
+        //不触发观察器
+        self.data1 = data1
+    }
+    func aa(){
+        data1=100
+    }
+}
+let bbb909=BubbleContainer()
+bbb909.aa()
+
+
+
+class Person0428 {
+    var name: String?
+
+    init(name: String? = nil) {
+        self.name = name ?? "默认名字"
+    }
+}
