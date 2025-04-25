@@ -2823,7 +2823,7 @@ func dowork(task:()->(), task2:()->(),task3:@escaping()->()) -> Void{
         
         task3();
     })
-
+    
 }
 
 dowork(task: {
@@ -2845,7 +2845,7 @@ dowork (task: {
 
 
 
- 
+
 class Cell {
     lazy var xxview:String = {
         //懒加载存储属性， 只调用一次初始化
@@ -2854,15 +2854,15 @@ class Cell {
     }()
     //懒加载不能用计算属性
     //'lazy' cannot be used on a computed property
-//    lazy var xxview2:String {
-//        get{
-//            print("懒加载 计算属性")
-//            return "12313"
-//        }
-//        set{
-//            
-//        }
-//    }
+    //    lazy var xxview2:String {
+    //        get{
+    //            print("懒加载 计算属性")
+    //            return "12313"
+    //        }
+    //        set{
+    //
+    //        }
+    //    }
     
     var xxview34:String{
         get{
@@ -2912,7 +2912,7 @@ let afunc33 = {
     print("111111")
     print("222222")
     print("123123123123")
-//    return "9999"
+    //    return "9999"
 }()
 //afunc33
 
@@ -2923,7 +2923,7 @@ let afun44 = {
     print("123123123123")
     return "9999"
 }()//表示立即调用
- print("\(afun44)")
+print("\(afun44)")
 
 //'lazy' cannot be used on an already-lazy global
 //懒加载属性不能用在全局，只能在类、结构体中用
@@ -2941,11 +2941,11 @@ enum aaEnum{
     case first,second
     
     
-//    //枚举不能用存储属性
-//    lazy var ss:String = {
-//        return "asdfasdf"
-//    }()
-//    
+    //    //枚举不能用存储属性
+    //    lazy var ss:String = {
+    //        return "asdfasdf"
+    //    }()
+    //
 }
 
 let aaenumobj = aaEnum.first;
@@ -2957,7 +2957,7 @@ case .second:
 }
 
 struct aaenumstru{
- 
+    
     //结构体中可以用懒加载属性
     lazy var ss:String = {
         print("懒加载")
@@ -2965,14 +2965,14 @@ struct aaenumstru{
     }()
     
 }
- 
+
 var ccstr = aaenumstru()
 print("\(ccstr.ss)")
 print("\(ccstr.ss)")
 print("\(ccstr.ss)")
 
 
- 
+
 func test11() -> Void {
     //1、guard必须要使用在函数内部
     //2、guard必须有else
@@ -2985,7 +2985,7 @@ func test11() -> Void {
     }
     //这里不需要或括号
     print("guard")
-
+    
 }
 test11()
 
@@ -3033,7 +3033,7 @@ class xxVc{
         didSet{
             print("1111")
             xxViewObj.sections=sections
-
+            
         }
     }
 }
@@ -3047,7 +3047,7 @@ class xxView{
         didSet{
             print("2222")
             aa.sections = sections
-
+            
         }
     }
     
@@ -3066,3 +3066,92 @@ class xxView{
 var xxVcObj = xxVc()
 xxVcObj.sections=[1]
 xxVcObj.xxViewObj.configXX()
+
+enum MIWRouterPage: String {
+    
+    case activePkInvited
+    case activePkInvited2
+    case activePkInvited3
+}
+enum Page: String {
+    case home //rawValue： home
+    case settings = "app_settings"//不一样，rawValue：app_settings
+}
+//相当于
+//enum MIWRouterPage: String {
+//    case activePkInvited = "activePkInvited"
+//    case activePkInvited2 = "activePkInvited2"
+//    case activePkInvited3 = "activePkInvited3"
+//}
+
+
+let pagePath = "activePkInvited"
+
+
+func testEnum(){
+    guard let pageType = MIWRouterPage(rawValue: pagePath) else {
+        
+        return
+    }
+    
+    switch pageType {
+    case .activePkInvited:
+        print("activePkInvited")
+    default:
+        print("default")
+        
+    }
+    
+    
+}
+testEnum()
+
+
+
+class Animal3 {
+    //因为 required 是要求 所有后代类都必须实现它，
+    //而 override 只是对父类的重写。
+    //如果没有 required，下一代子类可能就不会继承这个初始化方式，导致问题。
+    required init() {
+        print("Animal init")
+    }
+}
+
+
+class Dog3: Animal3 {
+    //所有后代类都必须实现它，所以所有后代都要加required
+    required init() {
+        print("Dog init")
+        super.init()
+    }
+}
+
+class SmallDog3:Dog3 {
+    required init() {
+        super.init()
+    }
+}
+
+
+// 
+//private func boolValue(from settings: NSDictionary?, key: String, defaultValue: Bool) -> Bool {
+//    if let settings = settings {
+//        if let value = settings[key] as? Bool {
+//            return value
+//        }
+//    }
+//    return defaultValue
+//}
+func testFF(dic:Dictionary<String, Any>?){
+    let tb1 = dic?["result"] ?? true
+    let tb2 = dic?["result2"] ?? true
+    let tb3 = dic?["r3"] ?? "defaultr4"
+    let tb4 = dic?["r4"] as? Bool ?? true
+    print(tb1,tb2,tb3,tb4)
+}
+
+testFF(dic: ["result":true,"result2":false,"r3":"r3"])
+testFF(dic: nil)
+testFF(dic: ["r4":"123"])
+testFF(dic: ["r4":false])
+
