@@ -1,0 +1,6 @@
+framework module Pods_swift_test_cmd {
+  umbrella header "Pods-swift-test-cmd-umbrella.h"
+
+  export *
+  module * { export * }
+}

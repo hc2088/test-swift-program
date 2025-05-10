@@ -9,6 +9,19 @@ target 'test-ui' do
 # pod 'SnapKit', :modular_headers => true
 #pod 'SnapKit', '~> 5.7.0', :modular_headers => true
 pod 'SnapKit', '~> 5.7.0' 
+
  
 
+end
+
+
+
+
+target 'swift-test-cmd' do
+  
+  
+  use_frameworks!
+  
+ 
+  
 end

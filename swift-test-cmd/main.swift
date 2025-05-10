@@ -6,6 +6,8 @@
 //
 
 import Foundation
+//import YYModel
+//import YYModel
 
 print("Hello, World!")
 
@@ -173,7 +175,7 @@ view.uiSettings=NSDictionary.init()
 
 
 class BubbleContainer  {
- 
+    
     var data1:Int? {
         didSet{
             print("data1修改了")
@@ -186,11 +188,11 @@ class BubbleContainer  {
         }
     }
     init(data1: Int? = nil, data2: Int? = nil) {
- 
+        
         self.data1 = data1
         self.data2 = data2
         
- 
+        
         self.data1 = data1
         self.data1 = data1
         self.data1 = data1
@@ -220,7 +222,7 @@ let response = "123"
 
 //do {
 //    // 检查是否为合法的 JSON 对象（Dictionary 或 Array）
-//    
+//
 ////    Showing Recent Errors Only
 ////    /Users/mi/Desktop/test-swift-program/swift-test-cmd/main.swift:223:63: Cannot convert value of type '[Any]?' to expected argument type '[String : Any]'
 //
@@ -259,7 +261,7 @@ func serializeAndPrint(_ object: Any) throws {
         print(jsonString)
     }
 }
- 
+
 safeJSONSerialization(response:response)
 print("结束")
 
@@ -321,7 +323,7 @@ print(str)
 
 // 解析代码
 //do {
-//    
+//
 //    let yourJsonData = "123123123"
 //    let jsonData = yourJsonData.data(using: .utf8)!// 假设这是 Data
 //    let user = try JSONDecoder().decode(User.self, from: jsonData)
@@ -373,6 +375,312 @@ do {
 
 
 
+
+
+
+
+
+@objcMembers class MIWTeamEntranceConfigResponse: NSObject {
+    var entranceList: [MIWEntranceListItem]?
+    var discoveryTeamList: [MIWEntranceListItem]?
+    var url: String?
+}
+
+
+
+@objcMembers class MIWEntranceListItem: NSObject{
+    
+}
+let result: MIWTeamEntranceConfigResponse = MIWTeamEntranceConfigResponse()
+//nil!=true是true nil空的 !=true成立
+//true!=true是false 没有内容!=true不成立
+//result.entranceList=[]
+//result.entranceList=nil
+result.entranceList=[MIWEntranceListItem()]
+//if result.entranceList?.isEmpty != true {
+//    print("空的")
+//}
+
+//if result.entranceList?.isEmpty == true {
+//    print("空的")
+//}
+
+let hasEntrance = !(result.entranceList?.isEmpty ?? true)
+//let hasDiscovery = !(discoveryTeamList?.isEmpty ?? true)
+if !hasEntrance {
+    print("空的")
+}else{
+    print("非空")
+}
+
+
+enum MIWRouterPage: String {
+    
+    //跑团详情
+    //https://region.hlth.io.mi.com/applinks/page/groupInfo?id=
+    case groupInfo
+    
+    //web页面（可复用）
+    //https://region.hlth.io.mi.com/applinks/page/gotoWeb?web_url=
+    case gotoWeb
+}
+
+let aMIWRouterPage = MIWRouterPage.init(rawValue: "groupInfo")
+
+let a2MIWRouterPage = MIWRouterPage.groupInfo
+print(aMIWRouterPage?.rawValue)
+
+print(a2MIWRouterPage.rawValue)
+
+
+func unescapeAndParseJSONString(_ input: String) -> Any? {
+    // 第一步：解析外层 JSON 字符串
+    guard let data = input.data(using: .utf8),
+          let outerJSON = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+          let innerJSONString = outerJSON["value"] as? String else {
+        return nil
+    }
+    
+    print(outerJSON)
+    // 第二步：解析内层的 JSON 字符串
+    guard let innerData = innerJSONString.data(using: .utf8),
+          let innerJSON = try? JSONSerialization.jsonObject(with: innerData, options: []) else {
+        return nil
+    }
+    return String.init(data: innerData, encoding: .utf8)
+    
+    //    return innerJSON
+}
+
+//let jsonString = "{\"value\":\"{\\\"a\\\":\\\"asd\\\"}\"}"
+//if let result = unescapeAndParseJSONString(jsonString) {
+//    print(result)  // 输出 ["a": "asd"]
+//}
+
+let dataStr = "%7B%5C%22category%5C%22%3A%5C%22walking%5C%22%2C%5C%22update_time%5C%22%3A1745803536%2C%5C%22time%5C%22%3A1745801182%2C%5C%22watermark%5C%22%3A124697010241576%2C%5C%22zone_offset%5C%22%3A28800%2C%5C%22sid%5C%22%3A%5C%22xiaomiwear_app%5C%22%2C%5C%22key%5C%22%3A%5C%22outdoor_walking%5C%22%2C%5C%22value%5C%22%3A%5C%22%7B%5C%5C%5C%22max_height%5C%5C%5C%22%3A0%2C%5C%5C%5C%22min_pace%5C%5C%5C%22%3A2073%2C%5C%5C%5C%22time%5C%5C%5C%22%3A1745801182%2C%5C%5C%5C%22did%5C%5C%5C%22%3A%5C%5C%5C%22xiaomiwear_app%5C%5C%5C%22%2C%5C%5C%5C%22avg_touchdown_air_ratio%5C%5C%5C%22%3A0%2C%5C%5C%5C%22duration%5C%5C%5C%22%3A605%2C%5C%5C%5C%22sport_type%5C%5C%5C%22%3A2%2C%5C%5C%5C%22calories%5C%5C%5C%22%3A26%2C%5C%5C%5C%22min_height%5C%5C%5C%22%3A0%2C%5C%5C%5C%22cloud_course_source%5C%5C%5C%22%3A0%2C%5C%5C%5C%22version%5C%5C%5C%22%3A9%2C%5C%5C%5C%22avg_height%5C%5C%5C%22%3A0%2C%5C%5C%5C%22max_pace%5C%5C%5C%22%3A471%2C%5C%5C%5C%22min_touchdown_air_ratio%5C%5C%5C%22%3A0%2C%5C%5C%5C%22proto_type%5C%5C%5C%22%3A22%2C%5C%5C%5C%22timezone%5C%5C%5C%22%3A32%2C%5C%5C%5C%22distance%5C%5C%5C%22%3A856%2C%5C%5C%5C%22start_time%5C%5C%5C%22%3A1745801182%2C%5C%5C%5C%22end_time%5C%5C%5C%22%3A1745801786%2C%5C%5C%5C%22target_value%5C%5C%5C%22%3A%7B%7D%2C%5C%5C%5C%22max_speed%5C%5C%5C%22%3A7.6433119773864746%2C%5C%5C%5C%22steps%5C%5C%5C%22%3A0%7D%5C%22%7D"
+
+let bStr = dataStr.removingPercentEncoding ?? ""
+print(bStr)
+
+let unescapedString = bStr.replacingOccurrences(of: "\\\"", with: "\"")
+    .replacingOccurrences(of: "\\\\", with: "\\")
+
+print(unescapedString)
+
+class UrlUtils {
+    
+    
+    static func urlDecode(_ encodedString: String) -> String {
+        let replacedString = encodedString.replacingOccurrences(of: "+", with: " ")
+        return replacedString.removingPercentEncoding ?? encodedString
+    }
+    
+}
+
+
+@objcMembers class MIWServerSportDataModel: NSObject {
+    var sid: String = ""// 数据源ID
+    var key: String = ""// 运动记录类型
+    var time: Int = 0// 归属时间戳，精确到秒
+    var category: String = ""// 运动大类
+    var value: String = ""// 运动记录明细数据，json字符串格式，参考运动健康数据定义
+    var zone_offset: Int = 0// 相对于零时区的时区偏移量，以秒为单位，例如北京时区，值为28800，默认值为28800
+    var zone_name: String = ""// IANA时区标识符，如北京时区：Asia/Shanghai
+    var deleted: Bool = false// 是否删除，增量同步时才返回（上报和删除不需要上传）
+    
+    
+}
+
+public class MIWReportBase: Codable {
+    /// 具有实际意义的运动课程ID
+    private enum CloudCourseId: Int{
+        case Gym = 251   //健身房训练
+        case AiDong = 252  ///爱动课程
+        case TV = 253  ///电视课程
+        case APP = 255 /// 运动健康APP课程
+    }
+    
+    /// 数据源id
+    public var did: String?
+    
+    /// 运动报告上报的时间
+    public var time: Int?
+    
+    /// 运动报告上报的时区
+    public var timezone: Int?
+    
+    /// 协议版本号，给@objc 客户端构建文件名
+    public var version: Int?
+}
+
+
+
+if let data = unescapedString.data(using: .utf8) {
+    print(bStr)
+    
+    let outerJSON = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+    print(outerJSON)
+    
+    
+    
+    
+    
+}
+
+
+//
+//let decodeString = UrlUtils.urlDecode(data)
+//
+//let unescapedString = decodeString.replacingOccurrences(of: "\\\"", with: "\"")
+//                              .replacingOccurrences(of: "\\\\", with: "\\")
+//
+//if let sportData: MIWServerSportDataModel = MIWServerSportDataModel.yy_model(withJSON: unescapedString)  {
+//
+//    var result:MIWReportBase?
+//    if let valueData = sportData.value.data(using: .utf8) {
+//        let jsonDecoder = JSONDecoder()
+//        result = try? jsonDecoder.decode(MIWReportBase.self, from: valueData)
+//        result?.did = sportData.sid
+//        result?.timezone = sportData.zone_offset / (15 * 60)
+//    }
+//
+//
+//
+//
+//
+//}
+
+var avatar11:String? = nil
+var avatar22:String? = ""
+
+let url11 = URL.init(string: avatar11 ?? "")
+let url22 = URL.init(string: avatar22 ?? "")
+
+print(url11)
+print(url22)
+
+
+//let url = URL(string: "myapp://host?a=1&b=2")! //queryItems正确解析
+//let url = URL(string: "host?a=1&b=2")! //queryItems正确解析
+//let url = URL(string: "myapp://?a=1&b=2")! //queryItems正确解析
+//let url = URL(string: "?a=1&b=2")! //queryItems正确解析
+
+
+//let url = URL(string: "a=1&b=2")! //url有值，queryItems为空
+//let url = URL(string: "myapp://a=1&b=2")! //url有值，queryItems为空
+[
+    "myapp://host?a=1&b=2",
+    "myapp://host/path?a=1&b=2",
+    "myapp://?a=1&b=2",
+    
+    
+    "host?a=1&b=2",
+    "host/path?a=1&b=2",
+    "//host/path?a=1&b=2",
+    "://host/path?a=1&b=2",
+    
+    "?a=1&b=2",
+    "a=1&b=2",
+    "myapp://a=1&b=2",
+    
+    
+    "myapp://host/path?a=%7B%5C%22a%5C%22%3A%5C%221%5C%22%7D" //会自动decode一次
+    
+].forEach {  url1 in
+    let url = URL(string: url1)! //queryItems正确解析
+    let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+    print(url1, url, components?.queryItems,separator: "  , ")
+}
+
+//必须参数默认值，如果传，就要传非空，如果不传，就取默认值，意思是如果传参数那就必须传递非空参数
+func openPage(appName: String,
+              pageName: String,
+              pageParams: [String: Any] = [:]){
+    print(appName,pageName,pageParams)
+}
+
+//可选参数默认值，意思是，传了就用传的，如果传了nil就是nil，如果有值就是有值，如果没传，就用默认值，非nil
+func openPage2(appName: String,
+               pageName: String,
+               pageParams: [String: Any]? = [:]){
+    print(appName,pageName,pageParams ?? [:])
+}
+
+openPage(appName: "123", pageName: "123123")
+var mapDa = ["key":["s":"fasd"]]
+var data = mapDa["key"]
+var data2 = mapDa["key1"]
+
+openPage(appName: "123", pageName: "123123",pageParams: data!)
+openPage2(appName: "123", pageName: "123123",pageParams: data2)
+openPage2(appName: "123", pageName: "123123")
+
+class MIWApi {
+    static func getSportHomeData(completion: @escaping (String) -> Void) {
+        
+    }
+}
+
+class YRNSportDataHelper {
+    
+    
+    func loadSportHomeDataFromDB() {
+        
+        MIWApi.getSportHomeData { [weak self]  result in
+            guard let self = self else { return }
+            
+            
+            getCourseDetail(result) { [weak self] course in
+                guard let self = self else { return }
+                let _ =  sportName()
+                
+            }
+            
+            
+        }
+    }
+    
+    private func getCourseDetail(_ report: String, completion: @escaping (String) -> Void) {
+        
+    }
+    
+    private func sportName(  ) -> String {
+        return ""
+    }
+    
+    
+}
+
+
+
+
+public enum MIWPhysicalFitnessStatusType: Int, CaseIterable {
+    ///1：体能丧失
+    case lose = 1
+    /// 2：维持体能"
+    case keep = 2
+    /// 3：有效训练
+    case effective = 3
+    /// 4：过度训练
+    case over = 4
+    
+    var color: UIColor {
+        switch self {
+        case .lose:
+            return UIColor.mwDynamicColor(0x45B4FF, 0x2598E5)
+        case .keep:
+            return UIColor.mwDynamicColor(0x00D6BA, 0x4EC708)
+        case .effective:
+            return UIColor.mwDynamicColor(0xA3E509, 0x8FCC00)
+        case .over:
+            return UIColor.mwDynamicColor(0xFFBB00, 0xF0AB00)
+        }
+    }
+    
+}
+
+let allColors = MIWPhysicalFitnessStatusType.allCases.map { $0.color }
+print(allColors)
 
 
 
