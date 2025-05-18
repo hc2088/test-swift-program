@@ -654,33 +654,33 @@ class YRNSportDataHelper {
 
 
 
-public enum MIWPhysicalFitnessStatusType: Int, CaseIterable {
-    ///1：体能丧失
-    case lose = 1
-    /// 2：维持体能"
-    case keep = 2
-    /// 3：有效训练
-    case effective = 3
-    /// 4：过度训练
-    case over = 4
-    
-    var color: UIColor {
-        switch self {
-        case .lose:
-            return UIColor.mwDynamicColor(0x45B4FF, 0x2598E5)
-        case .keep:
-            return UIColor.mwDynamicColor(0x00D6BA, 0x4EC708)
-        case .effective:
-            return UIColor.mwDynamicColor(0xA3E509, 0x8FCC00)
-        case .over:
-            return UIColor.mwDynamicColor(0xFFBB00, 0xF0AB00)
-        }
-    }
-    
-}
+//public enum MIWPhysicalFitnessStatusType: Int, CaseIterable {
+//    ///1：体能丧失
+//    case lose = 1
+//    /// 2：维持体能"
+//    case keep = 2
+//    /// 3：有效训练
+//    case effective = 3
+//    /// 4：过度训练
+//    case over = 4
+//    
+//    var color: UIColor {
+//        switch self {
+//        case .lose:
+//            return UIColor.mwDynamicColor(0x45B4FF, 0x2598E5)
+//        case .keep:
+//            return UIColor.mwDynamicColor(0x00D6BA, 0x4EC708)
+//        case .effective:
+//            return UIColor.mwDynamicColor(0xA3E509, 0x8FCC00)
+//        case .over:
+//            return UIColor.mwDynamicColor(0xFFBB00, 0xF0AB00)
+//        }
+//    }
+//    
+//}
 
-let allColors = MIWPhysicalFitnessStatusType.allCases.map { $0.color }
-print(allColors)
+//let allColors = MIWPhysicalFitnessStatusType.allCases.map { $0.color }
+//print(allColors)
 
 
 
