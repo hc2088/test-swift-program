@@ -572,7 +572,7 @@ print(url22)
     "myapp://host?a=1&b=2",
     "myapp://host/path?a=1&b=2",
     "myapp://?a=1&b=2",
-    
+
     
     "host?a=1&b=2",
     "host/path?a=1&b=2",
@@ -583,8 +583,7 @@ print(url22)
     "a=1&b=2",
     "myapp://a=1&b=2",
     
-    
-    "myapp://host/path?a=%7B%5C%22a%5C%22%3A%5C%221%5C%22%7D" //会自动decode一次
+    "https://region.hlth.io.mi.com/applinks/page/ADCoursePage?id="
     
 ].forEach {  url1 in
     let url = URL(string: url1)! //queryItems正确解析
@@ -663,7 +662,7 @@ class YRNSportDataHelper {
 //    case effective = 3
 //    /// 4：过度训练
 //    case over = 4
-//    
+//
 //    var color: UIColor {
 //        switch self {
 //        case .lose:
@@ -676,7 +675,72 @@ class YRNSportDataHelper {
 //            return UIColor.mwDynamicColor(0xFFBB00, 0xF0AB00)
 //        }
 //    }
-//    
+//
+//}
+
+//let allColors = MIWPhysicalFitnessStatusType.allCases.map { $0.color }
+//print(allColors)
+
+
+
+
+
+
+
+//[
+//
+//
+//    "",
+//    "123",
+//    "asdfa"
+//
+//].forEach {  str in
+//    let uid = Int64(str) //queryItems正确解析
+//
+//    print(uid)
+//}
+
+let babitDayPlan : String = ""
+
+var babitDayPlanDict: [String: Any]?
+if let data = babitDayPlan.data(using: .utf8) {
+    do {
+        babitDayPlanDict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+        if babitDayPlanDict == nil {
+            print("babitDayPlanDict is nil")
+        }
+    } catch {
+        print(error)
+    }
+    print(babitDayPlanDict)
+}
+
+class QueryParameters {
+    
+}
+//public enum MIWPhysicalFitnessStatusType: Int, CaseIterable {
+//    ///1：体能丧失
+//    case lose = 1
+//    /// 2：维持体能"
+//    case keep = 2
+//    /// 3：有效训练
+//    case effective = 3
+//    /// 4：过度训练
+//    case over = 4
+//
+//    var color: UIColor {
+//        switch self {
+//        case .lose:
+//            return UIColor.mwDynamicColor(0x45B4FF, 0x2598E5)
+//        case .keep:
+//            return UIColor.mwDynamicColor(0x00D6BA, 0x4EC708)
+//        case .effective:
+//            return UIColor.mwDynamicColor(0xA3E509, 0x8FCC00)
+//        case .over:
+//            return UIColor.mwDynamicColor(0xFFBB00, 0xF0AB00)
+//        }
+//    }
+//
 //}
 
 //let allColors = MIWPhysicalFitnessStatusType.allCases.map { $0.color }
