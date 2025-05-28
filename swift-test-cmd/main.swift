@@ -586,9 +586,17 @@ print(url22)
     "https://region.hlth.io.mi.com/applinks/page/ADCoursePage?id="
     
 ].forEach {  url1 in
-    let url = URL(string: url1)! //queryItems正确解析
-    let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-    print(url1, url, components?.queryItems,separator: "  , ")
+    let url = URL(string: url1) //queryItems正确解析
+    if url == nil  {
+        print("----》为空： \(url1)")
+    } else {
+        print("----》正常： \(url1),  \(String(describing: url))")
+        
+        let components = URLComponents(url: url!, resolvingAgainstBaseURL: false)
+        print(url1, url!, components?.queryItems,separator: "  , ")
+    }
+ 
+
 }
 
 //必须参数默认值，如果传，就要传非空，如果不传，就取默认值，意思是如果传参数那就必须传递非空参数
