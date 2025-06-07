@@ -126,6 +126,7 @@ key_override_map = {
     "训练指标": "sport.plan.trainingIndicator",
     "扫一扫": "sport.plan.scanQRCode",
     "添加设备": "sport.plan.addDevice",
+    "动感单车": "sport.entry.indoorBicycle"
 }
 target_values = list(key_override_map.keys())
 
