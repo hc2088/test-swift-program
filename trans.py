@@ -5,6 +5,9 @@ import argparse
 import shutil
 from collections import defaultdict
 
+# 操作实例
+# python ./trans.py --base /Users/mi/Documents/miwear/MiJiaWear/Resource --target /Users/mi/Documents/fitness-rn/app/assets/sport/res/localizedString --a
+
 # ========== 参数解析 ==========
 parser = argparse.ArgumentParser()
 parser.add_argument("--base", required=True, help="原始 .lproj 资源目录")
