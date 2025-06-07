@@ -223,7 +223,7 @@ for folder in sorted(lproj_folders):
         json.dump(output_json_dict, f, ensure_ascii=False, indent=2)
     processed_json_targets.add(json_target)
 
-# ===== Step 3: 可选追加到外部 JSON 文件 =====
+# ===== Step 3: 可选追加到外部 JSON 文件，并打印新增和已存在词条 =====
 if should_append and target_append_dir:
 
     def append_to_existing_json(target_append_dir, output_dir):
@@ -248,8 +248,10 @@ if should_append and target_append_dir:
                     log_lines.append(msg)
                     continue
 
-                # 找出需要添加的键值
+                # 区分新增和已存在的 key
                 to_add = {k: v for k, v in new_data.items() if k not in existing_data}
+                existing_keys = [k for k in new_data.keys() if k in existing_data]
+
                 if not to_add:
                     msg = f"ℹ️ {tgt_path} 中已包含全部词条，无需追加"
                     print(msg)
@@ -310,7 +312,10 @@ if should_append and target_append_dir:
                 # 写回文件
                 with open(tgt_path, 'w', encoding='utf-8') as f:
                     f.writelines(new_lines)
+
                 msg = f"✅ 已追加 {len(to_add)} 项到 {tgt_path}"
+                if existing_keys:
+                    msg += f"，已有 {len(existing_keys)} 项词条未追加: {existing_keys}"
                 print(msg)
                 log_lines.append(msg)
 
