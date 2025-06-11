@@ -1,0 +1,41 @@
+功能分析：
+参数解析与初始化：
+
+接收三个命令行参数：
+
+--base: 指定 .lproj 多语言资源目录（必须）
+
+--target: 可选目标目录（用于追加 JSON）
+
+--a: 是否启用追加逻辑（布尔值）
+
+初始化输出目录 lproj-json，并清理旧日志。
+
+语言映射与反查 key:
+
+定义一个语言码映射表，把如 zh-Hant-HK 映射为 zh-HK。
+
+利用 zh-Hans.lproj 中的字符串文件 Localizable.strings，通过指定中文 value 反查 key（包括备用 key）。
+
+处理所有其他语言的翻译：
+
+遍历所有 .lproj 文件夹（排除 zh-Hans），从 Localizable.strings 中提取翻译。
+
+对照原始 key 和 fallback key，查找目标翻译，输出为 json 格式，保存到 lproj-json/xx.json。
+
+可选追加翻译到已有 JSON：
+
+若传入 --target 和 --a，会把新生成的翻译词条追加到目标 JSON 文件：
+
+自动保持 JSON 格式、缩进；
+
+区分新增和已有 key；
+
+修复末尾缺逗号问题。
+
+日志记录：
+
+所有输出信息会记录到 lproj-json/translation_log.txt 中。
+
+✅ 总结一句话：
+该脚本用于从多语言 .lproj 文件中提取指定中文词条的翻译，生成标准化 JSON 文件，并可选地将结果智能追加到现有多语言 JSON 中。
