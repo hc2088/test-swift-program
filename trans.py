@@ -49,8 +49,6 @@ en-AU
 en-GB
 en-IN
 en:en-US
-es-419:es
-es-MX:es
 es
 et
 eu
@@ -60,7 +58,6 @@ fr
 gl
 gu-IN:gu
 ha
-he-IL:he
 he
 hi
 hr
@@ -114,6 +111,7 @@ vi
 zh-Hans:zh-CN
 zh-Hant-HK:zh-HK
 zh-Hant:zh-HK
+zh-Hant:zh-TW
 """
 
 key_override_map = {
