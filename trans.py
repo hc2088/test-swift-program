@@ -5,8 +5,11 @@ import argparse
 import shutil
 from collections import defaultdict
 
+
 # 操作实例
 # python ./trans.py --base /Users/mi/Documents/miwear/MiJiaWear/Resource --target /Users/mi/Documents/fitness-rn/app/assets/sport/res/localizedString --a
+
+
 
 # ========== 参数解析 ==========
 parser = argparse.ArgumentParser()
@@ -23,97 +26,109 @@ source_locale = "zh-Hans.lproj"
 output_dir = os.path.join(os.getcwd(), "lproj-json")
 log_output_path = os.path.join(output_dir, "translation_log.txt")
 
-# ==== 启动时清理 lproj-json 文件夹，如果 translation_log.txt 存在 ====
 if os.path.exists(log_output_path):
     print(f"检测到之前的日志文件 {log_output_path}，开始删除整个 {output_dir} 文件夹...")
     shutil.rmtree(output_dir)
     print(f"已删除 {output_dir} 文件夹，准备重新生成内容")
 
-# ===== 映射表 =====
-mapping_raw = """
-ar
-as
-az
-be
-bg-BG:bg
-bn-IN:bn
-bn
-bo
-bs
-ca
-cs
-da
-de
-el
-en-AU
-en-GB
-en-IN
-en:en-US
-es
-et
-eu
-fa
-fi
-fr
-gl
-gu-IN:gu
-ha
-he
-hi
-hr
-hu
-hy-AM:hy
-id
-is
-it
-ja
-ka
-kk
-km
-kn
-ko
-lo
-lt
-lv
-mk
-ml-IN:ml
-mr
-ms
-mt
-my
-nb
-ne-IN:ne
-ne-NP:ne
-nl
-or
-pa-IN:pa
-pl
-pt-BR
-pt-PT
-ro
-ru
-sk
-sl
-sq
-sr
-sv
-sw
-ta
-te
-th
-tr
-ug
-uk
-ur-IN
-ur-PK
-uz
-vi
-zh-Hans:zh-CN
-zh-Hant-HK:zh-HK
-zh-Hant:zh-HK
-zh-Hant:zh-TW
-"""
 
+
+# ===== 映射表规则说明 =====
+# - 若 "xx-YY:xx" 表示将地区变种（如 ne-IN）映射到通用语言（如 ne）
+# - 若 "xx" 没有冒号，表示原样输出为 xx.json
+# - 未在此列出的语言将会被跳过，不会生成 JSON
+# 多对一说明：
+# zh-Hant-HK:zh-HK
+#   zh-Hant:zh-HK 只会有第一个出现的目录被处理写入 zh-HK.json
+
+
+
+# ===== 支持注释的映射表 =====
+mapping_raw_lines = [
+    "ar",
+    "as",
+    "az",
+    "be",
+    "bg-BG:bg",   # 保加利亚语
+    "bn-IN:bn",   # 孟加拉语（印度）
+    "bn",
+    #"bo",  #藏语，IOS没有藏语，不处理
+    "bs",
+    "ca",
+    "cs",
+    "da",
+    "de",         # 德语
+    "el",
+    "en-AU",      # 英语（澳洲）
+    "en-GB",      # 英语（英国）
+    "en-IN",      # 英语（印度）
+    "en:en-US",   # 默认英语映射到美国英语
+    "es",
+    "et",
+    "eu",
+    "fa",
+    "fi",
+    "fr",
+    "gl",
+    "gu-IN:gu",
+    "ha",
+    "he",
+    "hi",
+    "hr",
+    "hu",
+    "hy-AM:hy",
+    "id",
+    "is",
+    "it",
+    "ja",
+    "ka",
+    "kk",
+    "km",
+    "kn",
+    "ko",
+    "lo",
+    "lt",
+    "lv",
+    "mk",
+    "ml-IN:ml",
+    "mr",
+    "ms",
+    "mt",
+    "my",
+    "nb",
+    "ne-IN:ne",     # 尼泊尔语（印度）
+    "ne-NP:ne",     # 尼泊尔语（尼泊尔）
+    "nl",
+    "or",
+    "pa-IN:pa",
+    "pl",
+    "pt-BR",
+    "pt-PT",
+    "ro",
+    "ru",
+    "sk",
+    "sl",
+    "sq",
+    "sr",
+    "sv",
+    "sw",
+    "ta",
+    "te",
+    "th",
+    "tr",
+    #"ug", #维吾尔语，IOS没有维吾尔语 不处理
+    "uk",
+    "ur-IN",
+    "ur-PK",
+    "uz",
+    "vi",
+    "zh-Hans:zh-CN",     # 简体中文
+    "zh-Hant-HK:zh-HK",  # 繁体中文（香港）
+    "zh-Hant:zh-HK",     # 也指向香港
+    "zh-Hant:zh-TW",     # 可切换为台湾（注释其中一个即可）
+]
+
+# ===== Key 映射 =====
 key_override_map = {
     "运动": "sport.tabName",
     "户外跑步": "sport.entry.outdoorRunning",
@@ -146,14 +161,17 @@ def parse_strings_file(filepath):
             translations[key] = value
     return translations
 
+# ===== 解析映射表（带注释）=====
 mapping = {}
-for line in mapping_raw.strip().splitlines():
+for line in mapping_raw_lines:
     line = line.strip()
-    if not line:
+    if not line or line.startswith("#"):
         continue
-    if ':' in line:
-        k, v = line.split(':', 1)
-        mapping[k] = v
+    if "#" in line:
+        line = line.split("#", 1)[0].strip()
+    if ":" in line:
+        k, v = line.split(":", 1)
+        mapping[k.strip()] = v.strip()
     else:
         mapping[line] = line
 
@@ -165,7 +183,7 @@ def log(msg):
     print(msg)
     log_lines.append(msg)
 
-# ===== Step 1: 解析源语言 zh-Hans.lproj =====
+# ===== Step 1: 获取 zh-Hans.lproj 的原始键值表 =====
 source_file = os.path.join(base_dir, source_locale, "Localizable.strings")
 source_map = parse_strings_file(source_file)
 reverse_source_map = defaultdict(list)
@@ -186,7 +204,7 @@ for val in target_values:
     else:
         log(f"  ❌ \"{val}\" 未找到对应key")
 
-# ===== Step 2: 多语言包翻译查找 =====
+# ===== Step 2: 遍历多语言包并输出 JSON =====
 translations_all = defaultdict(dict)
 missing_keys_log = defaultdict(list)
 processed_json_targets = set()
@@ -194,7 +212,10 @@ lproj_folders = [d for d in os.listdir(base_dir) if d.endswith('.lproj') and d !
 
 for folder in sorted(lproj_folders):
     locale_code = folder[:-6]
-    json_target = mapping.get(locale_code, locale_code)
+    if locale_code not in mapping:
+        continue  # ❌ 不在 mapping 表中的语言，不处理
+
+    json_target = mapping[locale_code]
     if json_target in processed_json_targets:
         continue
 
@@ -225,9 +246,8 @@ for folder in sorted(lproj_folders):
         json.dump(output_json_dict, f, ensure_ascii=False, indent=2)
     processed_json_targets.add(json_target)
 
-# ===== Step 3: 可选追加到外部 JSON 文件，并打印新增和已存在词条 =====
+# ===== Step 3: 可选追加到已有 JSON 文件 =====
 if should_append and target_append_dir:
-
     def append_to_existing_json(target_append_dir, output_dir):
         for filename in os.listdir(output_dir):
             if not filename.endswith(".json"):
@@ -250,7 +270,6 @@ if should_append and target_append_dir:
                     log_lines.append(msg)
                     continue
 
-                # 区分新增和已存在的 key
                 to_add = {k: v for k, v in new_data.items() if k not in existing_data}
                 existing_keys = [k for k in new_data.keys() if k in existing_data]
 
@@ -260,58 +279,18 @@ if should_append and target_append_dir:
                     log_lines.append(msg)
                     continue
 
-                # 找到 { 所在的行号
-                first_brace_index = None
-                for i, line in enumerate(old_lines):
-                    if line.strip() == '{':
-                        first_brace_index = i
-                        break
-                if first_brace_index is None:
-                    msg = f"❌ {tgt_path} 找不到左花括号 '{{'，跳过"
-                    print(msg)
-                    log_lines.append(msg)
-                    continue
+                first_brace_index = next((i for i, l in enumerate(old_lines) if l.strip() == '{'), None)
+                last_kv_index = next((i for i in reversed(range(len(old_lines))) if old_lines[i].strip() and not old_lines[i].strip().startswith("//") and old_lines[i].strip() not in ("{", "}")), None)
 
-                # 向上寻找最后一个有效键值对行（非空、非注释、非花括号）
-                last_kv_index = None
-                for i in range(len(old_lines) - 1, -1, -1):
-                    line_strip = old_lines[i].strip()
-                    if (
-                        line_strip and
-                        not line_strip.startswith("//") and
-                        not line_strip.startswith("/*") and
-                        not line_strip.startswith("*") and
-                        line_strip != "}" and
-                        line_strip != "{"
-                    ):
-                        last_kv_index = i
-                        break
+                insertion = [f'  "{k}": "{v}"{"," if idx < len(to_add) - 1 else ""}\n' for idx, (k, v) in enumerate(to_add.items())]
 
-                insertion = []
-                items = list(to_add.items())
-                if last_kv_index is None or last_kv_index <= first_brace_index:
-                    # 文件为空 JSON 或无有效键值对，直接在 { 后插入，无需逗号
-                    for idx, (k, v) in enumerate(items):
-                        line = f'  "{k}": "{v}"'
-                        if idx < len(items) - 1:
-                            line += ","
-                        insertion.append(line + "\n")
-                    # 插入在 { 后面一行
-                    new_lines = old_lines[:first_brace_index + 1] + insertion + old_lines[first_brace_index + 1:]
-                else:
-                    # 文件已有键值，确保最后一有效行有逗号
+                if last_kv_index is not None and first_brace_index is not None and last_kv_index > first_brace_index:
                     if not old_lines[last_kv_index].rstrip().endswith(","):
                         old_lines[last_kv_index] = old_lines[last_kv_index].rstrip() + ",\n"
-
-                    for idx, (k, v) in enumerate(items):
-                        line = f'  "{k}": "{v}"'
-                        if idx < len(items) - 1:
-                            line += ","
-                        insertion.append(line + "\n")
-                    # 插入在最后有效键值对行之后
                     new_lines = old_lines[:last_kv_index + 1] + insertion + old_lines[last_kv_index + 1:]
+                else:
+                    new_lines = old_lines[:first_brace_index + 1] + insertion + old_lines[first_brace_index + 1:]
 
-                # 写回文件
                 with open(tgt_path, 'w', encoding='utf-8') as f:
                     f.writelines(new_lines)
 
@@ -320,9 +299,7 @@ if should_append and target_append_dir:
                     msg += f"，已有 {len(existing_keys)} 项词条未追加: {existing_keys}"
                 print(msg)
                 log_lines.append(msg)
-
             else:
-                # 文件不存在，直接写新文件
                 with open(tgt_path, 'w', encoding='utf-8') as f:
                     json.dump(new_data, f, ensure_ascii=False, indent=2)
                 msg = f"🆕 创建并写入新文件 {tgt_path}"
@@ -331,7 +308,7 @@ if should_append and target_append_dir:
 
     append_to_existing_json(target_append_dir, output_dir)
 
-# ===== Step 4: 写入日志文件 =====
+# ===== Step 4: 写入日志 =====
 ensure_dir(output_dir)
 with open(log_output_path, 'w', encoding='utf-8') as logf:
     logf.write("\n".join(log_lines))
