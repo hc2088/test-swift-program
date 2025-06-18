@@ -4,6 +4,7 @@ import SnapKit
 
 
 class ViewController: UIViewController {
+    
     private static var _images:BubbleContainer.BubbleImageSlices? = BubbleContainer.BubbleImageSlices.sliceBubbleImage("ad_sports_group_map_bubble_group")
 
     static var imagess :BubbleContainer.BubbleImageSlices  {
@@ -17,51 +18,26 @@ class ViewController: UIViewController {
     private var widthButton: UIButton!
     private var heightButton: UIButton!
     var imageView: BubbleContainer!
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        // 创建 imageView
-        //        let rawImage = UIImage(named: "ad_sports_group_map_bubble_group")
-        //        let stretchableImage = rawImage?.resizableImage(
-        //            withCapInsets: UIEdgeInsets(top: 24, left: 0, bottom: 42, right: 0),//上下不变形
-        //            //withCapInsets: UIEdgeInsets(top: 24, left: 30, bottom: 42, right: 0),//左边不变形，上下不变形
-        //            resizingMode: .stretch
-        //        )
-        //        imageView = UIImageView(image: stretchableImage)
-        //        imageView.isUserInteractionEnabled = true
-        //        imageView.contentMode = .scaleToFill
-        //        imageView.backgroundColor = UIColor.red
-        //        imageView.frame = CGRect(x: 100, y: 200, width: 99, height: 70)
-        
-        //imageView =  BubbleContainer(imageBaseName: "ad_sports_group_map_bubble_group_joined")
-        let imagess = BubbleContainer.BubbleImageSlices.sliceBubbleImage("ad_sports_group_map_bubble_group")
-        imageView =  BubbleContainer(imagess:imagess)
-        //imageView = BubbleContainer("ad_sports_group_map_bubble_group_joined")
-        
-        
-        //imageView.imagess = BubbleContainer.BubbleImageSlices.sliceBubbleImage("ad_sports_group_map_bubble_group_joined")
-        imageView.frame = CGRect(x: 100, y: 200, width: 200, height: 70)
-//        imageView.backgroundColor = UIColor.red
-        view.addSubview( imageView)
-        //view.addSubview(imageView)
-        
-        // 添加调节宽度按钮
-        widthButton = UIButton(type: .custom)
-        widthButton.frame = CGRect(x: imageView.frame.maxX - 30, y: imageView.frame.maxY - 30, width: 30, height: 30)
-        widthButton.backgroundColor = .blue
-        widthButton.setTitle("⇔", for: .normal)
-        widthButton.addTarget(self, action: #selector(startWidthResize), for: .touchDown)
-        view.addSubview(widthButton)
-        
-        // 添加调节高度按钮
-        heightButton = UIButton(type: .custom)
-        heightButton.frame = CGRect(x: imageView.frame.minX - 30, y: imageView.frame.maxY - 30, width: 30, height: 30)
-        heightButton.backgroundColor = .green
-        heightButton.setTitle("⇕", for: .normal)
-        heightButton.addTarget(self, action: #selector(startHeightResize), for: .touchDown)
-        view.addSubview(heightButton)
+        //test1()
+        let curveView = LogisticCurveView(frame: CGRect(x: 20, y: 100, width: 300, height: 300))
+          curveView.backgroundColor = .white
+          view.addSubview(curveView)
     }
+    
+  
+    
+}
+
+
+extension ViewController {
     
     @objc func startWidthResize() {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleWidthResize(_:)))
@@ -107,6 +83,51 @@ class ViewController: UIViewController {
         
         //imageview.image = []
         gesture.setTranslation(.zero, in: view)
+    }
+    
+    
+
+    fileprivate func test1() {
+        // 创建 imageView
+        //        let rawImage = UIImage(named: "ad_sports_group_map_bubble_group")
+        //        let stretchableImage = rawImage?.resizableImage(
+        //            withCapInsets: UIEdgeInsets(top: 24, left: 0, bottom: 42, right: 0),//上下不变形
+        //            //withCapInsets: UIEdgeInsets(top: 24, left: 30, bottom: 42, right: 0),//左边不变形，上下不变形
+        //            resizingMode: .stretch
+        //        )
+        //        imageView = UIImageView(image: stretchableImage)
+        //        imageView.isUserInteractionEnabled = true
+        //        imageView.contentMode = .scaleToFill
+        //        imageView.backgroundColor = UIColor.red
+        //        imageView.frame = CGRect(x: 100, y: 200, width: 99, height: 70)
+        
+        //imageView =  BubbleContainer(imageBaseName: "ad_sports_group_map_bubble_group_joined")
+        let imagess = BubbleContainer.BubbleImageSlices.sliceBubbleImage("ad_sports_group_map_bubble_group")
+        imageView =  BubbleContainer(imagess:imagess)
+        //imageView = BubbleContainer("ad_sports_group_map_bubble_group_joined")
+        
+        
+        //imageView.imagess = BubbleContainer.BubbleImageSlices.sliceBubbleImage("ad_sports_group_map_bubble_group_joined")
+        imageView.frame = CGRect(x: 100, y: 200, width: 200, height: 70)
+        //        imageView.backgroundColor = UIColor.red
+        view.addSubview( imageView)
+        //view.addSubview(imageView)
+        
+        // 添加调节宽度按钮
+        widthButton = UIButton(type: .custom)
+        widthButton.frame = CGRect(x: imageView.frame.maxX - 30, y: imageView.frame.maxY - 30, width: 30, height: 30)
+        widthButton.backgroundColor = .blue
+        widthButton.setTitle("⇔", for: .normal)
+        widthButton.addTarget(self, action: #selector(startWidthResize), for: .touchDown)
+        view.addSubview(widthButton)
+        
+        // 添加调节高度按钮
+        heightButton = UIButton(type: .custom)
+        heightButton.frame = CGRect(x: imageView.frame.minX - 30, y: imageView.frame.maxY - 30, width: 30, height: 30)
+        heightButton.backgroundColor = .green
+        heightButton.setTitle("⇕", for: .normal)
+        heightButton.addTarget(self, action: #selector(startHeightResize), for: .touchDown)
+        view.addSubview(heightButton)
     }
 }
 

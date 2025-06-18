@@ -10,7 +10,7 @@ target 'test-ui' do
 #pod 'SnapKit', '~> 5.7.0', :modular_headers => true
 pod 'SnapKit', '~> 5.7.0' 
 
- 
+pod 'Sentry', '~> 8.43'
 
 end
 
