@@ -19,20 +19,69 @@ class ViewController: UIViewController {
     private var heightButton: UIButton!
     var imageView: BubbleContainer!
     
-    
+    var savedClosure: (() -> Void)?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewDidLoad1()
+    }
+}
+
+
+extension ViewController{
+    func viewDidLoad1(){
         view.backgroundColor = .white
         
-        //test1()
-        let curveView = LogisticCurveView(frame: CGRect(x: 20, y: 100, width: 300, height: 300))
-          curveView.backgroundColor = .white
-          view.addSubview(curveView)
+ 
+        //test2()
+        
+        
+        loadAllDataWithDispatchGroup()
+        
+        
+        Task {
+           await loadAllData()
+        }
+        
+        Task {
+            await loadAllDataWithTaskGroup()
+        }
+        
+        testActor()
     }
     
+    
+    
+    fileprivate func test2() {
+        //test1()
+        
+        
+        //测试“逻辑斯蒂函数”（Logistic Function）是一个常用于统计学、机器学习、生物学等领域的S形（sigmoid）函数
+        let curveView = LogisticCurveView(frame: CGRect(x: 20, y: 100, width: 300, height: 300))
+        curveView.backgroundColor = .white
+        view.addSubview(curveView)
+    }
+ 
+    
+    
+ 
+
+
+    //闭包被赋值给函数外部变量，逃逸了函数作用域，必须标记 @escaping
+    func storeClosure(_ closure: @escaping () -> Void) {
+        savedClosure = closure
+    }
+    
+}
+
+extension ViewController{
   
+    //inout 用于参数传递时修改外部变量值
+    func updateValue(_ value: inout Int) {
+        value += 1
+    }
+    
     
 }
 
