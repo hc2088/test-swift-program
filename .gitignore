@@ -1,0 +1,55 @@
+# Xcode
+DerivedData/
+build/
+*.xcworkspace
+!default.xcworkspace
+
+# User-specific Xcode files
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad
+*.moved-aside
+
+# Swift Package Manager
+.build/
+Packages/
+Package.pins
+Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+
+# Archives & Symbols
+*.xcarchive
+*.dSYM.zip
+*.dSYM
+
+# Other IDEs
+.idea/
+.vscode/
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Keychains
+*.keychain
+*.keychain-db
+
+# Playground & Generated
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Artifacts
+.swiftpm/
