@@ -48,6 +48,7 @@
 		0DFFA2782DC0ADC100D45B2C /* hook-swift */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "hook-swift"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B554D187326199506386393 /* Pods-swift-test-cmd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-test-cmd.debug.xcconfig"; path = "Target Support Files/Pods-swift-test-cmd/Pods-swift-test-cmd.debug.xcconfig"; sourceTree = "<group>"; };
 		4C624989843E5916927CA078 /* Pods-test-ui.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-ui.release.xcconfig"; path = "Target Support Files/Pods-test-ui/Pods-test-ui.release.xcconfig"; sourceTree = "<group>"; };
+		4F0706FF2E34AF7700DE5B81 /* anke-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "anke-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F34E7CC2DDA3DB100352F3D /* test-gcd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-gcd.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7487CA0D902043FB0A0A408 /* Pods-test-ui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-ui.debug.xcconfig"; path = "Target Support Files/Pods-test-ui/Pods-test-ui.debug.xcconfig"; sourceTree = "<group>"; };
 		B587825952AFA1B065BFCEDA /* Pods_test_ui.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test_ui.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +63,13 @@
 				Info.plist,
 			);
 			target = 0DA9C4352DBB1E26003D9997 /* test-ui */;
+		};
+		4F0707122E34AF7800DE5B81 /* Exceptions for "anke-player" folder in "anke-player" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4F0706FE2E34AF7700DE5B81 /* anke-player */;
 		};
 		4F34E7DF2DDA3DB200352F3D /* Exceptions for "test-gcd" folder in "test-gcd" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -94,6 +102,14 @@
 		0DFFA2792DC0ADC100D45B2C /* hook-swift */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "hook-swift";
+			sourceTree = "<group>";
+		};
+		4F0707002E34AF7700DE5B81 /* anke-player */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4F0707122E34AF7800DE5B81 /* Exceptions for "anke-player" folder in "anke-player" target */,
+			);
+			path = "anke-player";
 			sourceTree = "<group>";
 		};
 		4F34E7CD2DDA3DB100352F3D /* test-gcd */ = {
@@ -137,6 +153,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4F0706FC2E34AF7700DE5B81 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F34E7C92DDA3DB100352F3D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -155,6 +178,7 @@
 				0D883C0A2DBFAAE20045FB0B /* swift-test-cmd */,
 				0DFFA2792DC0ADC100D45B2C /* hook-swift */,
 				4F34E7CD2DDA3DB100352F3D /* test-gcd */,
+				4F0707002E34AF7700DE5B81 /* anke-player */,
 				0D71BAD22DA7EC8600191E88 /* Products */,
 				C8EC01A266D7401CEFEE5C0D /* Pods */,
 				E28C812821C0C4CEA9E479DD /* Frameworks */,
@@ -169,6 +193,7 @@
 				0D883C092DBFAAE20045FB0B /* swift-test-cmd */,
 				0DFFA2782DC0ADC100D45B2C /* hook-swift */,
 				4F34E7CC2DDA3DB100352F3D /* test-gcd.app */,
+				4F0706FF2E34AF7700DE5B81 /* anke-player.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -279,6 +304,28 @@
 			productReference = 0DFFA2782DC0ADC100D45B2C /* hook-swift */;
 			productType = "com.apple.product-type.tool";
 		};
+		4F0706FE2E34AF7700DE5B81 /* anke-player */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F0707132E34AF7800DE5B81 /* Build configuration list for PBXNativeTarget "anke-player" */;
+			buildPhases = (
+				4F0706FB2E34AF7700DE5B81 /* Sources */,
+				4F0706FC2E34AF7700DE5B81 /* Frameworks */,
+				4F0706FD2E34AF7700DE5B81 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4F0707002E34AF7700DE5B81 /* anke-player */,
+			);
+			name = "anke-player";
+			packageProductDependencies = (
+			);
+			productName = "anke-player";
+			productReference = 4F0706FF2E34AF7700DE5B81 /* anke-player.app */;
+			productType = "com.apple.product-type.application";
+		};
 		4F34E7CB2DDA3DB100352F3D /* test-gcd */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F34E7E02DDA3DB200352F3D /* Build configuration list for PBXNativeTarget "test-gcd" */;
@@ -323,6 +370,9 @@
 					0DFFA2772DC0ADC100D45B2C = {
 						CreatedOnToolsVersion = 16.2;
 					};
+					4F0706FE2E34AF7700DE5B81 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					4F34E7CB2DDA3DB100352F3D = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -347,12 +397,20 @@
 				0D883C082DBFAAE20045FB0B /* swift-test-cmd */,
 				0DFFA2772DC0ADC100D45B2C /* hook-swift */,
 				4F34E7CB2DDA3DB100352F3D /* test-gcd */,
+				4F0706FE2E34AF7700DE5B81 /* anke-player */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0DA9C4342DBB1E26003D9997 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F0706FD2E34AF7700DE5B81 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -455,6 +513,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0DFFA2742DC0ADC100D45B2C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F0706FB2E34AF7700DE5B81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -716,6 +781,67 @@
 			};
 			name = Release;
 		};
+		4F0707102E34AF7800DE5B81 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R6U63G5U52;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "anke-player/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.anke-player";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F0707112E34AF7800DE5B81 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R6U63G5U52;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "anke-player/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.anke-player";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		4F34E7DD2DDA3DB200352F3D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -821,6 +947,15 @@
 			buildConfigurations = (
 				0DFFA27C2DC0ADC100D45B2C /* Debug */,
 				0DFFA27D2DC0ADC100D45B2C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F0707132E34AF7800DE5B81 /* Build configuration list for PBXNativeTarget "anke-player" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F0707102E34AF7800DE5B81 /* Debug */,
+				4F0707112E34AF7800DE5B81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
