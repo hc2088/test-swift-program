@@ -308,3 +308,28 @@ func testSafeBankAccountConcurrency(name: String) {
 
     print("\(name)-Final balance (Safe): \(account.getBalance())")
 }
+
+class MyTask {
+    // 这里的 Task 是 MyTask.Task，不是全局的 Task
+    class Task {
+        
+    }
+    
+}
+
+//
+//Task 是 Swift 并发库提供的类型，定义在 Swift 标准库（Swift Concurrency Runtime）中，具体是一个 struct，用于创建和管理异步任务。
+//
+//它提供了像 Task { ... } 这样的尾随闭包构造器，是通过定义了初始化器，支持尾随闭包语法。
+//public struct Task<Success, Failure> where Failure : Error {
+//    public init(priority: TaskPriority? = nil, operation: @escaping @Sendable () async throws -> Success)
+//}
+//Task { ... } 其实是调用了这个 struct 的初始化器，利用尾随闭包语法，所以你写的代码是合法的。
+
+
+//不是编译器内建语法
+//Task 不是语言内建的关键字（不像 if、for、func 等）。
+//
+//它是普通的类型，只是配合 async/await 和编译器的支持，才能实现并发模型。
+//
+//编译器会识别 Task { ... } 这种语法调用这个结构体的构造函数。
