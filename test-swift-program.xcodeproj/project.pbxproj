@@ -49,6 +49,7 @@
 		4B554D187326199506386393 /* Pods-swift-test-cmd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-test-cmd.debug.xcconfig"; path = "Target Support Files/Pods-swift-test-cmd/Pods-swift-test-cmd.debug.xcconfig"; sourceTree = "<group>"; };
 		4C624989843E5916927CA078 /* Pods-test-ui.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-ui.release.xcconfig"; path = "Target Support Files/Pods-test-ui/Pods-test-ui.release.xcconfig"; sourceTree = "<group>"; };
 		4F0706FF2E34AF7700DE5B81 /* anke-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "anke-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F13B6F42E3F207400CBD297 /* test-concurrency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-concurrency.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F34E7CC2DDA3DB100352F3D /* test-gcd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-gcd.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7487CA0D902043FB0A0A408 /* Pods-test-ui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-ui.debug.xcconfig"; path = "Target Support Files/Pods-test-ui/Pods-test-ui.debug.xcconfig"; sourceTree = "<group>"; };
 		B587825952AFA1B065BFCEDA /* Pods_test_ui.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test_ui.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +71,13 @@
 				Info.plist,
 			);
 			target = 4F0706FE2E34AF7700DE5B81 /* anke-player */;
+		};
+		4F13B7072E3F207400CBD297 /* Exceptions for "test-concurrency" folder in "test-concurrency" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4F13B6F32E3F207400CBD297 /* test-concurrency */;
 		};
 		4F34E7DF2DDA3DB200352F3D /* Exceptions for "test-gcd" folder in "test-gcd" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -110,6 +118,14 @@
 				4F0707122E34AF7800DE5B81 /* Exceptions for "anke-player" folder in "anke-player" target */,
 			);
 			path = "anke-player";
+			sourceTree = "<group>";
+		};
+		4F13B6F52E3F207400CBD297 /* test-concurrency */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4F13B7072E3F207400CBD297 /* Exceptions for "test-concurrency" folder in "test-concurrency" target */,
+			);
+			path = "test-concurrency";
 			sourceTree = "<group>";
 		};
 		4F34E7CD2DDA3DB100352F3D /* test-gcd */ = {
@@ -160,6 +176,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4F13B6F12E3F207400CBD297 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F34E7C92DDA3DB100352F3D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -179,6 +202,7 @@
 				0DFFA2792DC0ADC100D45B2C /* hook-swift */,
 				4F34E7CD2DDA3DB100352F3D /* test-gcd */,
 				4F0707002E34AF7700DE5B81 /* anke-player */,
+				4F13B6F52E3F207400CBD297 /* test-concurrency */,
 				0D71BAD22DA7EC8600191E88 /* Products */,
 				C8EC01A266D7401CEFEE5C0D /* Pods */,
 				E28C812821C0C4CEA9E479DD /* Frameworks */,
@@ -194,6 +218,7 @@
 				0DFFA2782DC0ADC100D45B2C /* hook-swift */,
 				4F34E7CC2DDA3DB100352F3D /* test-gcd.app */,
 				4F0706FF2E34AF7700DE5B81 /* anke-player.app */,
+				4F13B6F42E3F207400CBD297 /* test-concurrency.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -326,6 +351,28 @@
 			productReference = 4F0706FF2E34AF7700DE5B81 /* anke-player.app */;
 			productType = "com.apple.product-type.application";
 		};
+		4F13B6F32E3F207400CBD297 /* test-concurrency */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F13B7082E3F207400CBD297 /* Build configuration list for PBXNativeTarget "test-concurrency" */;
+			buildPhases = (
+				4F13B6F02E3F207400CBD297 /* Sources */,
+				4F13B6F12E3F207400CBD297 /* Frameworks */,
+				4F13B6F22E3F207400CBD297 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4F13B6F52E3F207400CBD297 /* test-concurrency */,
+			);
+			name = "test-concurrency";
+			packageProductDependencies = (
+			);
+			productName = "test-concurrency";
+			productReference = 4F13B6F42E3F207400CBD297 /* test-concurrency.app */;
+			productType = "com.apple.product-type.application";
+		};
 		4F34E7CB2DDA3DB100352F3D /* test-gcd */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F34E7E02DDA3DB200352F3D /* Build configuration list for PBXNativeTarget "test-gcd" */;
@@ -373,6 +420,9 @@
 					4F0706FE2E34AF7700DE5B81 = {
 						CreatedOnToolsVersion = 16.2;
 					};
+					4F13B6F32E3F207400CBD297 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					4F34E7CB2DDA3DB100352F3D = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -398,6 +448,7 @@
 				0DFFA2772DC0ADC100D45B2C /* hook-swift */,
 				4F34E7CB2DDA3DB100352F3D /* test-gcd */,
 				4F0706FE2E34AF7700DE5B81 /* anke-player */,
+				4F13B6F32E3F207400CBD297 /* test-concurrency */,
 			);
 		};
 /* End PBXProject section */
@@ -411,6 +462,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4F0706FD2E34AF7700DE5B81 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F13B6F22E3F207400CBD297 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -520,6 +578,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4F0706FB2E34AF7700DE5B81 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F13B6F02E3F207400CBD297 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -796,7 +861,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -826,13 +891,74 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.anke-player";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4F13B7052E3F207400CBD297 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R6U63G5U52;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-concurrency/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.test-concurrency";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F13B7062E3F207400CBD297 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R6U63G5U52;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-concurrency/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.test-concurrency";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -956,6 +1082,15 @@
 			buildConfigurations = (
 				4F0707102E34AF7800DE5B81 /* Debug */,
 				4F0707112E34AF7800DE5B81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F13B7082E3F207400CBD297 /* Build configuration list for PBXNativeTarget "test-concurrency" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F13B7052E3F207400CBD297 /* Debug */,
+				4F13B7062E3F207400CBD297 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
