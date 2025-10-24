@@ -11,6 +11,23 @@
 		EA6B91E1308EF8CA01B5B832 /* Pods_test_ui.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B587825952AFA1B065BFCEDA /* Pods_test_ui.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4FEB3FED2EABCD6300759267 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D71BAC92DA7EC8600191E88 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4FEB3FD62EABCD6100759267;
+			remoteInfo = "test-image-stretch";
+		};
+		4FEB3FF72EABCD6300759267 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D71BAC92DA7EC8600191E88 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4FEB3FD62EABCD6100759267;
+			remoteInfo = "test-image-stretch";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		0D71BACF2DA7EC8600191E88 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -51,6 +68,9 @@
 		4F0706FF2E34AF7700DE5B81 /* anke-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "anke-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F13B6F42E3F207400CBD297 /* test-concurrency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-concurrency.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F34E7CC2DDA3DB100352F3D /* test-gcd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-gcd.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FEB3FD72EABCD6100759267 /* test-image-stretch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-image-stretch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FEB3FEC2EABCD6300759267 /* test-image-stretchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "test-image-stretchTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FEB3FF62EABCD6300759267 /* test-image-stretchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "test-image-stretchUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7487CA0D902043FB0A0A408 /* Pods-test-ui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-ui.debug.xcconfig"; path = "Target Support Files/Pods-test-ui/Pods-test-ui.debug.xcconfig"; sourceTree = "<group>"; };
 		B587825952AFA1B065BFCEDA /* Pods_test_ui.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test_ui.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2694598F60D54067E3FA3BF /* Pods-swift-test-cmd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-test-cmd.release.xcconfig"; path = "Target Support Files/Pods-swift-test-cmd/Pods-swift-test-cmd.release.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +105,13 @@
 				Info.plist,
 			);
 			target = 4F34E7CB2DDA3DB100352F3D /* test-gcd */;
+		};
+		4FEB40042EABCD6400759267 /* Exceptions for "test-image-stretch" folder in "test-image-stretch" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4FEB3FD62EABCD6100759267 /* test-image-stretch */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -134,6 +161,24 @@
 				4F34E7DF2DDA3DB200352F3D /* Exceptions for "test-gcd" folder in "test-gcd" target */,
 			);
 			path = "test-gcd";
+			sourceTree = "<group>";
+		};
+		4FEB3FD82EABCD6100759267 /* test-image-stretch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4FEB40042EABCD6400759267 /* Exceptions for "test-image-stretch" folder in "test-image-stretch" target */,
+			);
+			path = "test-image-stretch";
+			sourceTree = "<group>";
+		};
+		4FEB3FEF2EABCD6300759267 /* test-image-stretchTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "test-image-stretchTests";
+			sourceTree = "<group>";
+		};
+		4FEB3FF92EABCD6400759267 /* test-image-stretchUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "test-image-stretchUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -190,6 +235,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4FEB3FD42EABCD6100759267 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FEB3FE92EABCD6300759267 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FEB3FF32EABCD6300759267 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -203,6 +269,9 @@
 				4F34E7CD2DDA3DB100352F3D /* test-gcd */,
 				4F0707002E34AF7700DE5B81 /* anke-player */,
 				4F13B6F52E3F207400CBD297 /* test-concurrency */,
+				4FEB3FD82EABCD6100759267 /* test-image-stretch */,
+				4FEB3FEF2EABCD6300759267 /* test-image-stretchTests */,
+				4FEB3FF92EABCD6400759267 /* test-image-stretchUITests */,
 				0D71BAD22DA7EC8600191E88 /* Products */,
 				C8EC01A266D7401CEFEE5C0D /* Pods */,
 				E28C812821C0C4CEA9E479DD /* Frameworks */,
@@ -219,6 +288,9 @@
 				4F34E7CC2DDA3DB100352F3D /* test-gcd.app */,
 				4F0706FF2E34AF7700DE5B81 /* anke-player.app */,
 				4F13B6F42E3F207400CBD297 /* test-concurrency.app */,
+				4FEB3FD72EABCD6100759267 /* test-image-stretch.app */,
+				4FEB3FEC2EABCD6300759267 /* test-image-stretchTests.xctest */,
+				4FEB3FF62EABCD6300759267 /* test-image-stretchUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -395,6 +467,74 @@
 			productReference = 4F34E7CC2DDA3DB100352F3D /* test-gcd.app */;
 			productType = "com.apple.product-type.application";
 		};
+		4FEB3FD62EABCD6100759267 /* test-image-stretch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FEB40052EABCD6400759267 /* Build configuration list for PBXNativeTarget "test-image-stretch" */;
+			buildPhases = (
+				4FEB3FD32EABCD6100759267 /* Sources */,
+				4FEB3FD42EABCD6100759267 /* Frameworks */,
+				4FEB3FD52EABCD6100759267 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4FEB3FD82EABCD6100759267 /* test-image-stretch */,
+			);
+			name = "test-image-stretch";
+			packageProductDependencies = (
+			);
+			productName = "test-image-stretch";
+			productReference = 4FEB3FD72EABCD6100759267 /* test-image-stretch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4FEB3FEB2EABCD6300759267 /* test-image-stretchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FEB40062EABCD6400759267 /* Build configuration list for PBXNativeTarget "test-image-stretchTests" */;
+			buildPhases = (
+				4FEB3FE82EABCD6300759267 /* Sources */,
+				4FEB3FE92EABCD6300759267 /* Frameworks */,
+				4FEB3FEA2EABCD6300759267 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4FEB3FEE2EABCD6300759267 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4FEB3FEF2EABCD6300759267 /* test-image-stretchTests */,
+			);
+			name = "test-image-stretchTests";
+			packageProductDependencies = (
+			);
+			productName = "test-image-stretchTests";
+			productReference = 4FEB3FEC2EABCD6300759267 /* test-image-stretchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4FEB3FF52EABCD6300759267 /* test-image-stretchUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FEB40072EABCD6400759267 /* Build configuration list for PBXNativeTarget "test-image-stretchUITests" */;
+			buildPhases = (
+				4FEB3FF22EABCD6300759267 /* Sources */,
+				4FEB3FF32EABCD6300759267 /* Frameworks */,
+				4FEB3FF42EABCD6300759267 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4FEB3FF82EABCD6300759267 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4FEB3FF92EABCD6400759267 /* test-image-stretchUITests */,
+			);
+			name = "test-image-stretchUITests";
+			packageProductDependencies = (
+			);
+			productName = "test-image-stretchUITests";
+			productReference = 4FEB3FF62EABCD6300759267 /* test-image-stretchUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -402,7 +542,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					0D71BAD02DA7EC8600191E88 = {
@@ -425,6 +565,17 @@
 					};
 					4F34E7CB2DDA3DB100352F3D = {
 						CreatedOnToolsVersion = 16.2;
+					};
+					4FEB3FD62EABCD6100759267 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					4FEB3FEB2EABCD6300759267 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 4FEB3FD62EABCD6100759267;
+					};
+					4FEB3FF52EABCD6300759267 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 4FEB3FD62EABCD6100759267;
 					};
 				};
 			};
@@ -449,6 +600,9 @@
 				4F34E7CB2DDA3DB100352F3D /* test-gcd */,
 				4F0706FE2E34AF7700DE5B81 /* anke-player */,
 				4F13B6F32E3F207400CBD297 /* test-concurrency */,
+				4FEB3FD62EABCD6100759267 /* test-image-stretch */,
+				4FEB3FEB2EABCD6300759267 /* test-image-stretchTests */,
+				4FEB3FF52EABCD6300759267 /* test-image-stretchUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -482,6 +636,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4FEB3FD52EABCD6100759267 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FEB3FEA2EABCD6300759267 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FEB3FF42EABCD6300759267 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -493,9 +668,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-test-ui/Pods-test-ui-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-test-ui/Pods-test-ui-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -598,7 +777,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4FEB3FD32EABCD6100759267 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FEB3FE82EABCD6300759267 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FEB3FF22EABCD6300759267 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4FEB3FEE2EABCD6300759267 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4FEB3FD62EABCD6100759267 /* test-image-stretch */;
+			targetProxy = 4FEB3FED2EABCD6300759267 /* PBXContainerItemProxy */;
+		};
+		4FEB3FF82EABCD6300759267 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4FEB3FD62EABCD6100759267 /* test-image-stretch */;
+			targetProxy = 4FEB3FF72EABCD6300759267 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0D71BAD62DA7EC8600191E88 /* Debug */ = {
@@ -1029,6 +1242,147 @@
 			};
 			name = Release;
 		};
+		4FEB3FFE2EABCD6400759267 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M39545FQ38;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-image-stretch/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.launch.test.test-image-stretch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4FEB3FFF2EABCD6400759267 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M39545FQ38;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-image-stretch/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.launch.test.test-image-stretch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4FEB40002EABCD6400759267 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M39545FQ38;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.launch.test.test-image-stretchTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/test-image-stretch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/test-image-stretch";
+			};
+			name = Debug;
+		};
+		4FEB40012EABCD6400759267 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M39545FQ38;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.launch.test.test-image-stretchTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/test-image-stretch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/test-image-stretch";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4FEB40022EABCD6400759267 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M39545FQ38;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.launch.test.test-image-stretchUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "test-image-stretch";
+			};
+			name = Debug;
+		};
+		4FEB40032EABCD6400759267 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M39545FQ38;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.launch.test.test-image-stretchUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "test-image-stretch";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1100,6 +1454,33 @@
 			buildConfigurations = (
 				4F34E7DD2DDA3DB200352F3D /* Debug */,
 				4F34E7DE2DDA3DB200352F3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FEB40052EABCD6400759267 /* Build configuration list for PBXNativeTarget "test-image-stretch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FEB3FFE2EABCD6400759267 /* Debug */,
+				4FEB3FFF2EABCD6400759267 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FEB40062EABCD6400759267 /* Build configuration list for PBXNativeTarget "test-image-stretchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FEB40002EABCD6400759267 /* Debug */,
+				4FEB40012EABCD6400759267 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FEB40072EABCD6400759267 /* Build configuration list for PBXNativeTarget "test-image-stretchUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FEB40022EABCD6400759267 /* Debug */,
+				4FEB40032EABCD6400759267 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
