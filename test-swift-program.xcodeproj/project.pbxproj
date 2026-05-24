@@ -68,11 +68,14 @@
 		4F0706FF2E34AF7700DE5B81 /* anke-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "anke-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F13B6F42E3F207400CBD297 /* test-concurrency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-concurrency.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F34E7CC2DDA3DB100352F3D /* test-gcd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-gcd.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3EB7CF2FC0A85700B3C9FB /* test_runloop */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = test_runloop; sourceTree = "<group>"; };
 		4FA46D582FB4B45B003AB95D /* test-combine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-combine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEB3FD72EABCD6100759267 /* test-image-stretch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-image-stretch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEB3FEC2EABCD6300759267 /* test-image-stretchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "test-image-stretchTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEB3FF62EABCD6300759267 /* test-image-stretchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "test-image-stretchUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A0010000000000000000001 /* test-async-draw-oc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-async-draw-oc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B0010000000000000000001 /* test-offscreen-rendering.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-offscreen-rendering.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C0010000000000000000001 /* test-runloop-monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-runloop-monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7487CA0D902043FB0A0A408 /* Pods-test-ui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-ui.debug.xcconfig"; path = "Target Support Files/Pods-test-ui/Pods-test-ui.debug.xcconfig"; sourceTree = "<group>"; };
 		B587825952AFA1B065BFCEDA /* Pods_test_ui.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test_ui.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2694598F60D54067E3FA3BF /* Pods-swift-test-cmd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-test-cmd.release.xcconfig"; path = "Target Support Files/Pods-swift-test-cmd/Pods-swift-test-cmd.release.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +131,20 @@
 				Info.plist,
 			);
 			target = 5A0010000000000000000007 /* test-async-draw-oc */;
+		};
+		5B0010000000000000000002 /* Exceptions for "test-offscreen-rendering" folder in "test-offscreen-rendering" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5B0010000000000000000007 /* test-offscreen-rendering */;
+		};
+		5C0010000000000000000002 /* Exceptions for "test-runloop-monitor" folder in "test-runloop-monitor" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5C0010000000000000000007 /* test-runloop-monitor */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -211,6 +228,22 @@
 				5A0010000000000000000002 /* Exceptions for "test-async-draw-oc" folder in "test-async-draw-oc" target */,
 			);
 			path = "test-async-draw-oc";
+			sourceTree = "<group>";
+		};
+		5B0010000000000000000003 /* test-offscreen-rendering */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5B0010000000000000000002 /* Exceptions for "test-offscreen-rendering" folder in "test-offscreen-rendering" target */,
+			);
+			path = "test-offscreen-rendering";
+			sourceTree = "<group>";
+		};
+		5C0010000000000000000003 /* test-runloop-monitor */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5C0010000000000000000002 /* Exceptions for "test-runloop-monitor" folder in "test-runloop-monitor" target */,
+			);
+			path = "test-runloop-monitor";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -302,12 +335,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5B0010000000000000000004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C0010000000000000000004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		0D71BAC82DA7EC8600191E88 = {
 			isa = PBXGroup;
 			children = (
+				4F3EB7CF2FC0A85700B3C9FB /* test_runloop */,
 				0D71BAD32DA7EC8600191E88 /* test-swift-program */,
 				0DA9C4372DBB1E26003D9997 /* test-ui */,
 				0D883C0A2DBFAAE20045FB0B /* swift-test-cmd */,
@@ -320,6 +368,8 @@
 				4FEB3FF92EABCD6400759267 /* test-image-stretchUITests */,
 				4FA46D592FB4B45B003AB95D /* test-combine */,
 				5A0010000000000000000003 /* test-async-draw-oc */,
+				5B0010000000000000000003 /* test-offscreen-rendering */,
+				5C0010000000000000000003 /* test-runloop-monitor */,
 				0D71BAD22DA7EC8600191E88 /* Products */,
 				C8EC01A266D7401CEFEE5C0D /* Pods */,
 				E28C812821C0C4CEA9E479DD /* Frameworks */,
@@ -341,6 +391,8 @@
 				4FEB3FF62EABCD6300759267 /* test-image-stretchUITests.xctest */,
 				4FA46D582FB4B45B003AB95D /* test-combine.app */,
 				5A0010000000000000000001 /* test-async-draw-oc.app */,
+				5B0010000000000000000001 /* test-offscreen-rendering.app */,
+				5C0010000000000000000001 /* test-runloop-monitor.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -629,6 +681,50 @@
 			productReference = 5A0010000000000000000001 /* test-async-draw-oc.app */;
 			productType = "com.apple.product-type.application";
 		};
+		5B0010000000000000000007 /* test-offscreen-rendering */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B001000000000000000000A /* Build configuration list for PBXNativeTarget "test-offscreen-rendering" */;
+			buildPhases = (
+				5B0010000000000000000005 /* Sources */,
+				5B0010000000000000000004 /* Frameworks */,
+				5B0010000000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5B0010000000000000000003 /* test-offscreen-rendering */,
+			);
+			name = "test-offscreen-rendering";
+			packageProductDependencies = (
+			);
+			productName = "test-offscreen-rendering";
+			productReference = 5B0010000000000000000001 /* test-offscreen-rendering.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5C0010000000000000000007 /* test-runloop-monitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C001000000000000000000A /* Build configuration list for PBXNativeTarget "test-runloop-monitor" */;
+			buildPhases = (
+				5C0010000000000000000005 /* Sources */,
+				5C0010000000000000000004 /* Frameworks */,
+				5C0010000000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5C0010000000000000000003 /* test-runloop-monitor */,
+			);
+			name = "test-runloop-monitor";
+			packageProductDependencies = (
+			);
+			productName = "test-runloop-monitor";
+			productReference = 5C0010000000000000000001 /* test-runloop-monitor.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -677,6 +773,12 @@
 					5A0010000000000000000007 = {
 						CreatedOnToolsVersion = 26.2;
 					};
+					5B0010000000000000000007 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					5C0010000000000000000007 = {
+						CreatedOnToolsVersion = 26.2;
+					};
 				};
 			};
 			buildConfigurationList = 0D71BACC2DA7EC8600191E88 /* Build configuration list for PBXProject "test-swift-program" */;
@@ -705,6 +807,8 @@
 				4FEB3FF52EABCD6300759267 /* test-image-stretchUITests */,
 				4FA46D572FB4B45B003AB95D /* test-combine */,
 				5A0010000000000000000007 /* test-async-draw-oc */,
+				5B0010000000000000000007 /* test-offscreen-rendering */,
+				5C0010000000000000000007 /* test-runloop-monitor */,
 			);
 		};
 /* End PBXProject section */
@@ -767,6 +871,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5A0010000000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B0010000000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C0010000000000000000006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -922,6 +1040,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5A0010000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B0010000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C0010000000000000000005 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1629,6 +1761,140 @@
 			};
 			name = Release;
 		};
+		5B0010000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-offscreen-rendering/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.test-offscreen-rendering";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5B0010000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-offscreen-rendering/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.test-offscreen-rendering";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5C0010000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-runloop-monitor/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.test-runloop-monitor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5C0010000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-runloop-monitor/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.test-runloop-monitor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1745,6 +2011,24 @@
 			buildConfigurations = (
 				5A0010000000000000000008 /* Debug */,
 				5A0010000000000000000009 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5B001000000000000000000A /* Build configuration list for PBXNativeTarget "test-offscreen-rendering" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B0010000000000000000008 /* Debug */,
+				5B0010000000000000000009 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5C001000000000000000000A /* Build configuration list for PBXNativeTarget "test-runloop-monitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C0010000000000000000008 /* Debug */,
+				5C0010000000000000000009 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
