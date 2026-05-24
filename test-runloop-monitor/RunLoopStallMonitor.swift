@@ -79,6 +79,9 @@ final class RunLoopStallMonitor {
     }
 
     private func handle(activity: CFRunLoopActivity) {
+        // 这个回调运行在主线程，因为 observer 是加在主线程 RunLoop 上的。
+        // 每次 RunLoop 进入新阶段时，我们都把“最近一次状态”和“状态发生时间”记下来，
+        // 然后 signal 一下后台 watchdog，表示主线程还在继续往前推进。
         lock.lock()
         lastActivity = activity
         lastActivityTime = CFAbsoluteTimeGetCurrent()
@@ -96,6 +99,11 @@ final class RunLoopStallMonitor {
     }
 
     private func watchLoop() {
+        // 这个循环运行在后台串行队列里。
+        // 它不是忙轮询，而是“等主线程报平安”：
+        // 1. 主线程每次 activity 变化，都会 semaphore.signal()
+        // 2. 如果在 timeoutInterval 内收到了 signal，就说明主线程还在流动，继续下一轮等待
+        // 3. 如果等超时了，才去读取主线程最近一次状态快照，判断是不是卡住了
         while isMonitoring {
             let result = semaphore.wait(timeout: .now() + timeoutInterval)
             guard isMonitoring else { break }
@@ -107,6 +115,8 @@ final class RunLoopStallMonitor {
     }
 
     private func currentSnapshot() -> (activity: CFRunLoopActivity, elapsed: TimeInterval) {
+        // 这里取的是“主线程最近一次 RunLoop 状态”和“从那次状态到现在已经过了多久”。
+        // 后台 watchdog 并不自己维护一套状态机，而是读取主线程 observer 留下来的快照。
         lock.lock()
         let activity = lastActivity
         let elapsed = CFAbsoluteTimeGetCurrent() - lastActivityTime
@@ -115,6 +125,8 @@ final class RunLoopStallMonitor {
     }
 
     private func processTimeout(_ snapshot: (activity: CFRunLoopActivity, elapsed: TimeInterval)) {
+        // 如果超时发生在 AfterWaiting / BeforeSources，说明主线程刚醒来或刚要处理任务时，
+        // 很长时间都没有继续推进，这正是最典型的卡顿可疑点。
         if snapshot.activity == .afterWaiting || snapshot.activity == .beforeSources {
             suspiciousHitCount += 1
             let reason: String
@@ -128,10 +140,12 @@ final class RunLoopStallMonitor {
             onStallRecord?(record)
             onLog?("stall suspected: \(Self.activityDescription(snapshot.activity)) \(Int(snapshot.elapsed * 1000))ms")
         } else if snapshot.activity == .beforeWaiting {
+            // BeforeWaiting 往往意味着这一轮事情已经做完，RunLoop 正准备休眠。
+            // 所以这里通常不把它判成卡顿，只记一条“当前更像空闲态”的提示日志。
             let now = CFAbsoluteTimeGetCurrent()
             if now - lastLoggedIdleTimeoutTime > 0.5 {
                 lastLoggedIdleTimeoutTime = now
-                onLog?("timeout while activity = BeforeWaiting, usually means main run loop is idle instead of stuck")
+                onLog?("超时发生在 BeforeWaiting，通常说明主线程 RunLoop 更像是空闲待休眠，而不是发生了真正卡顿")
             }
         }
     }

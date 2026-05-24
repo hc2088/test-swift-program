@@ -539,7 +539,47 @@ runLoop.run(mode: .default, before: .distantFuture)
 - 从调用栈角度看，它一定是“稍后执行”
 - 从 RunLoop 轮次看，可能是当前这轮后半段执行，也可能是下一轮执行
 
-### 11.4 `Timer` 和 `DispatchSourceTimer` 的区别
+### 11.4 `CFRunLoopPerformBlock` 属于 Source0、Source1 还是 Timer
+
+它**不属于 `Source0`、`Source1`、`Timer` 里的任何一种**。
+
+更准确地说：
+
+- `Source0`
+  - 是 non-port-based input source
+  - 需要 `signal`，必要时还要 `wakeUp`
+- `Source1`
+  - 是 port-based input source
+  - 常见形式是 `Port / Mach port`
+- `Timer`
+  - 是到点触发的 RunLoop 定时任务
+- `CFRunLoopPerformBlock`
+  - 是 **RunLoop 自己提供的一种 block 投递机制**
+  - 用来把一段代码挂到“指定 RunLoop + 指定 mode”上，等这个 RunLoop 后续轮到合适阶段时执行
+
+在 [test-runloop-demo/RunLoopThreadLab.swift](/Users/huchu/Desktop/test-swift-program/test-runloop-demo/RunLoopThreadLab.swift:76) 里有一段很典型：
+
+```swift
+CFRunLoopPerformBlock(runLoop, CFRunLoopMode.defaultMode.rawValue) { [weak self] in
+    guard let self else { return }
+    self.emitLog("worker 线程收到 stop 请求，准备调用 CFRunLoopStop")
+    CFRunLoopStop(CFRunLoopGetCurrent())
+}
+CFRunLoopWakeUp(runLoop)
+```
+
+这里的作用不是“立刻 stop”，而是：
+
+1. 主线程先把“停止 worker RunLoop”这件事投递到 **worker 自己的 RunLoop**
+2. 如果 worker 此时正在休眠，再用 `CFRunLoopWakeUp` 把它叫醒
+3. worker RunLoop 后续运行到合适阶段时，执行这个 block
+4. block 内部在 **worker 线程**里调用 `CFRunLoopStop(CFRunLoopGetCurrent())`
+
+所以一句话记忆：
+
+**`CFRunLoopPerformBlock` 里的 block 是独立于 `Source0 / Source1 / Timer` 的另一类 RunLoop 任务机制。**
+
+### 11.5 `Timer` 和 `DispatchSourceTimer` 的区别
 
 - `Timer / NSTimer`
   - 是 **RunLoop-based**
@@ -555,7 +595,7 @@ runLoop.run(mode: .default, before: .distantFuture)
 
 **卡不卡，主要取决于回调跑在哪个线程、做了多少事，不是取决于它叫 `Timer` 还是 `DispatchSourceTimer`。**
 
-### 11.5 为什么 `UIScrollView` 拖拽时跑在 `UITrackingRunLoopMode`
+### 11.6 为什么 `UIScrollView` 拖拽时跑在 `UITrackingRunLoopMode`
 
 因为滚动是一个强实时交互，系统需要优先保证：
 
@@ -584,7 +624,7 @@ runLoop.run(mode: .default, before: .distantFuture)
 - UI 更新也可以发生在 `UITrackingRunLoopMode`
 - 取决于当前这轮 RunLoop 正在哪个 mode 下运行
 
-### 11.6 屏幕 60Hz / 120Hz 刷新，是 RunLoop 在驱动吗
+### 11.7 屏幕 60Hz / 120Hz 刷新，是 RunLoop 在驱动吗
 
 不是。
 
@@ -607,7 +647,7 @@ runLoop.run(mode: .default, before: .distantFuture)
 
 **RunLoop 不是屏幕刷新的时钟源；RunLoop 的任务是尽量在下一次 VSync deadline 之前把这一帧准备好并提交出去。**
 
-### 11.7 `port` 和 `Source1` 是不是同一个东西
+### 11.8 `port` 和 `Source1` 是不是同一个东西
 
 不是同一个层级的概念，但它们强相关。
 
@@ -628,7 +668,7 @@ runLoop.run(mode: .default, before: .distantFuture)
 - **Source1 依赖 port**
 - **RunLoop 监听 port，上面有消息时处理 Source1**
 
-### 11.8 `mach port` 和 Linux `epoll` 是不是一回事
+### 11.9 `mach port` 和 Linux `epoll` 是不是一回事
 
 不是。
 
@@ -643,7 +683,7 @@ runLoop.run(mode: .default, before: .distantFuture)
 
 - `kqueue / kevent`
 
-### 11.9 什么情况下适合用 Source0
+### 11.10 什么情况下适合用 Source0
 
 最典型的是：
 
@@ -678,6 +718,10 @@ runLoop.run(mode: .default, before: .distantFuture)
 
 > 因为拖拽 `UIScrollView` 时，主线程 RunLoop 通常运行在 `UITrackingRunLoopMode`。只加在 `NSDefaultRunLoopMode` 的 Timer 会暂停，但滚动相关的核心链路，包括触摸处理、`contentOffset` 更新、cell 复用、布局和 Core Animation 提交，都会继续在 tracking mode 下运行。系统这样设计是为了优先保证交互流畅度。
 
-### 12.4 `DispatchSourceTimer` 会不会天然比 `Timer` 更流畅
+### 12.4 `CFRunLoopPerformBlock` 到底属于哪一类
+
+> `CFRunLoopPerformBlock` 不属于 `Source0`、`Source1` 或 `Timer`，它是 RunLoop 提供的一种独立 block 投递机制。你可以把一段代码挂到指定 RunLoop 和指定 mode 上，等这个 RunLoop 后续轮到合适阶段时执行。实际工程里常见用法，是把某个操作投递回目标线程自己的 RunLoop 上执行，再配合 `CFRunLoopWakeUp` 保证如果线程正在休眠也能及时处理。
+
+### 12.5 `DispatchSourceTimer` 会不会天然比 `Timer` 更流畅
 
 > 不会。`DispatchSourceTimer` 不依赖 RunLoop mode，但卡不卡主要取决于回调跑在哪个线程、做了多少工作。如果 `DispatchSourceTimer` 的回调也放在主线程里做重活，一样会卡。它的优势更多在于可以方便地绑定后台 queue，而不是“天然更快”。
