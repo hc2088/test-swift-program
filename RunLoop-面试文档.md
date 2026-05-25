@@ -522,6 +522,42 @@ runLoop.run(mode: .default, before: .distantFuture)
 - 前者更偏“把一件事投递给某条线程的 RunLoop”
 - 后者更偏“在当前线程 RunLoop 上注册一个延时触发的任务”
 
+### 11.2.1 `performSelector(onThread:)` 和 `CFRunLoopPerformBlock` 底层逻辑一样吗
+
+**不一样，但目标很像。**
+
+相同点是：
+
+- 都不是立刻执行
+- 都依赖目标线程的 RunLoop 真正在跑
+- 都可以把工作安排到目标线程后续执行
+
+不同点在“投递模型”：
+
+- `performSelector(onThread:)`
+  - 是 `NSObject` / Foundation 这一层的 API
+  - 你投递的是 **selector + object**
+  - 更像一个 **perform selector source**
+  - 你指定的是 **thread**
+  - 所以它更偏“把一个方法调用扔给某条线程”
+
+- `CFRunLoopPerformBlock`
+  - 是 Core Foundation 这一层的 API
+  - 你投递的是 **block**
+  - 你指定的是 **runLoop + mode**
+  - 它不是 `Source0`、不是 `Source1`、也不是 `Timer`
+  - 它是 **RunLoop 自己维护的一类待执行 block 机制**
+  - 所以它更偏“把一段代码挂到某个 RunLoop 的某个 mode 上”
+
+还可以再记一个关键差别：
+
+- `performSelector(onThread:)` 通常由系统内部帮你处理“投递到目标线程”这层细节
+- `CFRunLoopPerformBlock` 经常需要你自己再配合 `CFRunLoopWakeUp(runLoop)`，保证目标 RunLoop 如果正在休眠，也能尽快起来执行这个 block
+
+一句话记忆：
+
+**`performSelector(onThread:)` 更偏“线程投递模型”，`CFRunLoopPerformBlock` 更偏“RunLoop/mode 投递模型”；它们目的相似，但不是同一套底层机制。**
+
 ### 11.3 `dispatch_async(dispatch_get_main_queue(), block)` 到底是什么时机执行
 
 它不是 `Timer`，也不要简单等同成普通 `Source0`。
