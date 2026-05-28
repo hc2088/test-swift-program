@@ -6,12 +6,15 @@
 
 - `copy / mutableCopy`
 - `KVO：willChangeValueForKey: / didChangeValueForKey:`
+- `Runtime：resolveInstanceMethod: 动态方法解析`
 
 目标是拆开验证这些经常被混在一起的说法：
 
 1. `property(copy)` 和直接写 `[obj copy]` 是不是一回事
 2. “可变对象的 copy 是深拷贝”到底是在说单体对象，还是在说容器对象
 3. `copy` 返回不可变对象这件事，会不会影响 `NSMutableString *` 这类属性声明
+4. `resolveInstanceMethod:` 里只 `return YES` 但不加方法，会不会死循环
+5. `class_addMethod` 添加的方法是先进方法列表，还是直接进入 cache
 
 ## 当前结论
 
@@ -23,6 +26,8 @@
 - KVO 自动模式下，系统会在合适的 setter 路径上帮你包 `willChangeValueForKey:` / `didChangeValueForKey:`
 - 如果关闭了自动通知，或者你绕开了默认 setter，就要自己写成：`willChange -> 改 ivar -> didChange`
 - `willChangeValueForKey:` 的核心职责更像“标记变化开始并保存旧值语境”，`didChangeValueForKey:` 更像“变化结束后组装 change 并通知 observer”
+- `resolveInstanceMethod:` 只 `return YES` 但不添加方法，不会死循环；Runtime 会重试普通查找，仍然找不到后进入消息转发链
+- `class_addMethod` 是把方法添加到类的方法列表；return YES 后 Runtime 重试普通查找，第一次通常从方法列表找到并填充 cache，后续同一消息才优先命中 cache
 
 ## 如何判断深拷贝还是浅拷贝
 
@@ -44,4 +49,3 @@
 - KVC
 - 通知
 - 代理
-- Runtime

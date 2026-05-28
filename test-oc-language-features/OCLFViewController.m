@@ -1,6 +1,7 @@
 #import "OCLFViewController.h"
 #import "OCLFCopyExperiment.h"
 #import "OCLFKVOExperiment.h"
+#import "OCLFResolveMethodExperiment.h"
 
 @interface OCLFViewController ()
 
@@ -8,9 +9,11 @@
 @property (nonatomic, strong) UIStackView *contentStack;
 @property (nonatomic, strong) UILabel *memorySemanticsSummaryLabel;
 @property (nonatomic, strong) UILabel *kvoSummaryLabel;
+@property (nonatomic, strong) UILabel *resolveSummaryLabel;
 @property (nonatomic, strong) UITextView *logTextView;
 @property (nonatomic, strong) OCLFCopyExperiment *experimentRunner;
 @property (nonatomic, strong) OCLFKVOExperiment *kvoRunner;
+@property (nonatomic, strong) OCLFResolveMethodExperiment *resolveRunner;
 
 @end
 
@@ -22,10 +25,12 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.97 blue:0.99 alpha:1.0];
     self.experimentRunner = [[OCLFCopyExperiment alloc] init];
     self.kvoRunner = [[OCLFKVOExperiment alloc] init];
+    self.resolveRunner = [[OCLFResolveMethodExperiment alloc] init];
 
     [self setupView];
     [self runCopyExperiment];
     [self runKVOExperiment];
+    [self runResolveExperiment];
 }
 
 - (void)setupView {
@@ -57,6 +62,7 @@
         [self makeRoadmapCard],
         [self makeCopyCard],
         [self makeKVOCard],
+        [self makeResolveCard],
         [self makeLogCard]
     ];
 
@@ -67,8 +73,8 @@
 
 - (UIView *)makeIntroCard {
     UILabel *titleLabel = [self makeTitleLabel:@"Objective-C 语言特性实验台"];
-    UILabel *introLabel = [self makeBodyLabel:@"这个 target 会专门放 OC 语言特性的测试代码。当前先做两组最容易在面试里问到、也最容易讲混的内容：copy / mutableCopy，以及 KVO 里的 willChangeValueForKey: / didChangeValueForKey:。"];
-    UILabel *tipLabel = [self makeHintLabel:@"这页当前最重要的区分是：\n1. 单体对象 vs 容器对象 copy\n2. 普通 copy 方法 vs property(copy) setter\n3. KVO 自动通知 vs 手动通知\n4. willChange / didChange 各自承担什么职责"];
+    UILabel *introLabel = [self makeBodyLabel:@"这个 target 会专门放 OC 语言特性的测试代码。当前先做三组最容易在面试里问到、也最容易讲混的内容：copy / mutableCopy、KVO 手动通知，以及 Runtime 动态方法解析。"];
+    UILabel *tipLabel = [self makeHintLabel:@"这页当前最重要的区分是：\n1. 单体对象 vs 容器对象 copy\n2. 普通 copy 方法 vs property(copy) setter\n3. KVO 自动通知 vs 手动通知\n4. resolveInstanceMethod: 动态添加方法 vs 消息转发"];
     return [self makeCardWithViews:@[titleLabel, introLabel, tipLabel]];
 }
 
@@ -109,6 +115,22 @@
 
     UILabel *tipLabel = [self makeHintLabel:@"这组实验重点看三件事：\n1. 自动 KVO 下，setter 为什么能直接触发回调\n2. 手动 KVO 下，为什么一定是 willChange -> 改 ivar -> didChange\n3. didChange 真正做的不是改值，而是驱动 observer 收到 change 字典"];
     return [self makeCardWithViews:@[titleLabel, self.kvoSummaryLabel, buttonsRow, tipLabel]];
+}
+
+- (UIView *)makeResolveCard {
+    UILabel *titleLabel = [self makeTitleLabel:@"当前实验：Runtime 动态方法解析"];
+    self.resolveSummaryLabel = [self makeBodyLabel:@"等待运行实验..."];
+    self.resolveSummaryLabel.textColor = [UIColor colorWithRed:0.15 green:0.42 blue:0.36 alpha:1.0];
+
+    UIStackView *buttonsRow = [[UIStackView alloc] init];
+    buttonsRow.axis = UILayoutConstraintAxisHorizontal;
+    buttonsRow.spacing = 10.0;
+    buttonsRow.distribution = UIStackViewDistributionFillEqually;
+
+    [buttonsRow addArrangedSubview:[self makeButtonWithTitle:@"运行 resolve 实验" action:@selector(runResolveExperiment)]];
+
+    UILabel *tipLabel = [self makeHintLabel:@"这组实验重点看两件事：\n1. resolveInstanceMethod: 只 return YES 但不添加方法，会不会死循环\n2. class_addMethod 后 return YES，方法先进方法列表还是直接进 cache"];
+    return [self makeCardWithViews:@[titleLabel, self.resolveSummaryLabel, buttonsRow, tipLabel]];
 }
 
 - (UIView *)makeLogCard {
@@ -215,6 +237,19 @@
 
     [self appendLog:@"=================================================="];
     [self appendLog:@"重新运行 KVO willChange / didChange 实验"];
+    [self appendLog:@"=================================================="];
+
+    for (NSString *line in outcome.lines) {
+        [self appendLog:line];
+    }
+}
+
+- (void)runResolveExperiment {
+    OCLFResolveMethodExperimentOutcome *outcome = [self.resolveRunner runExperiment];
+    self.resolveSummaryLabel.text = [NSString stringWithFormat:@"当前结论：%@", outcome.summary];
+
+    [self appendLog:@"=================================================="];
+    [self appendLog:@"重新运行 Runtime resolveInstanceMethod: 实验"];
     [self appendLog:@"=================================================="];
 
     for (NSString *line in outcome.lines) {
