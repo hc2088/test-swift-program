@@ -3,13 +3,22 @@
 这份文档整理了上面几轮关于 Objective-C 语言特性的问答，重点围绕：
 
 1. `@property` 有没有 `mutableCopy`
-2. 分类到底是在什么时机加载和决议
-3. 分类加载后内存会不会释放
-4. 为什么分类明明已经编译进二进制了，还说是“运行时决议”
-5. `+load` 和 `+initialize` 在类和分类里为什么表现不同
-6. 为什么说 Objective-C 是动态语言，这和“编译后已经成机器码”并不矛盾
-7. Swift 和 Objective-C Runtime / 方法分发 / hook 点的区别
-8. Objective-C 内存管理里的 `Tagged Pointer`、`non-pointer isa`、`SideTable`、ARC 和 autorelease pool
+2. 分类的加载时机、运行时决议、内存生命周期和方法覆盖顺序
+3. `+load` 和 `+initialize` 在类、父类、子类、分类里的执行差异
+4. Objective-C 为什么是动态语言，以及这和“编译后已经是机器码”为什么不矛盾
+5. `method_exchangeImplementations`、`SEL -> IMP` 映射变化和方法缓存
+6. `objc_msgSend` 的消息传递流程、方法查找、父类链查找和消息转发
+7. `resolveInstanceMethod:`、`class_addMethod`、动态方法添加和完整消息转发流程
+8. 分类从源码、Mach-O、Runtime 挂载到最终方法调用的完整链路
+9. Swift 和 Objective-C Runtime / 方法分发 / hook 点的区别
+10. Objective-C 内存管理里的 `Tagged Pointer`、`non-pointer isa`、`SideTable`、ARC 和 autorelease pool
+11. 局部变量、strong/weak、autorelease pool、引用计数归零和对象释放链路
+12. Block 的结构体改写、调用方式、三种内存形态、对象捕获、ARC/MRC 差异和释放流程
+13. `__block` 的 byref / forwarding 结构、栈到堆迁移，以及业务代码里的类比方案
+14. 对象实例、`isa`、`ivars`、类对象、元类对象、方法列表、`class_ro_t` / `class_rw_t`
+15. 动态创建类、动态添加 ivar、编译后类的实例布局固定，以及方法为什么不改变实例大小
+16. 子类类方法沿元类链查找到根元类 / 根类对象的完整路径
+17. 适合面试时直接背诵的 Objective-C / Swift 对照速答
 
 ---
 
@@ -2073,6 +2082,790 @@ objc_autoreleasePoolPop(token);
 
 所以 `@autoreleasepool` 是显式边界，池里具体什么时候登记对象，则来自 ARC、Runtime 和返回值所有权规则。
 
+### 11.8.10.4 从对象内存图看 Block 的内存管理方案
+
+Block 可以理解成：
+
+> **封装了函数指针和捕获上下文的 Objective-C 对象式结构体。**
+
+编译器把 block 改写以后，常见结构大致是：
+
+```cpp
+struct __block_impl {
+    void *isa;
+    int Flags;
+    int Reserved;
+    void *FuncPtr;
+};
+
+struct __Some_block_impl_0 {
+    struct __block_impl impl;
+    struct __Some_block_desc_0 *Desc;
+    // captured variables...
+};
+```
+
+block 调用：
+
+```objc
+block();
+```
+
+会被改写成类似：
+
+```cpp
+((void (*)(__block_impl *))block->FuncPtr)((__block_impl *)block);
+```
+
+也就是说：
+
+- `FuncPtr / invoke` 是真正要执行的函数入口
+- 捕获的变量会作为 block 结构体里的字段保存
+- block 自己作为第一个参数传给这个函数，函数内部再从 block 结构体里取上下文
+
+从前面对象内存图的角度看，Block **不是 tagged pointer**。
+
+它不是把对象值编码在指针本身里，而是：
+
+```text
+block 变量槽位
+   |
+   v
+Block 对象内存
+```
+
+只是 Block 的内存布局不是普通 NSObject 实例那种简单的：
+
+```text
+[ non-pointer isa | ivars... ]
+```
+
+而更像：
+
+```text
+Block 对象内存
+┌─────────────────────────────────────────┐
+│ isa -> _NSConcreteStackBlock /           │
+│        _NSConcreteMallocBlock /          │
+│        _NSConcreteGlobalBlock            │
+├─────────────────────────────────────────┤
+│ Flags / 引用计数相关标记                 │
+├─────────────────────────────────────────┤
+│ Reserved                                │
+├─────────────────────────────────────────┤
+│ FuncPtr / invoke                         │
+├─────────────────────────────────────────┤
+│ Desc                                    │
+│  - size                                 │
+│  - copy helper                          │
+│  - dispose helper                       │
+├─────────────────────────────────────────┤
+│ 捕获的变量上下文                         │
+└─────────────────────────────────────────┘
+```
+
+所以一句话：
+
+> Block 是“带 `isa` 的结构体对象”，不是 tagged pointer；它的内存管理核心是 `stack block -> copy -> heap block`。
+
+#### Block 的三种常见存储形态
+
+```mermaid
+flowchart TD
+    A["block 字面量"] --> B{"是否捕获 auto 局部变量?"}
+    B -->|"不捕获，或只捕获全局/static"| G["_NSConcreteGlobalBlock<br/>全局区/常量区<br/>通常不需要真正 retain/release"]
+    B -->|"捕获 auto 局部变量"| S["_NSConcreteStackBlock<br/>栈上 block<br/>函数返回后栈空间失效"]
+    S -->|"Block_copy / ARC 发现 block 逃逸"| H["_NSConcreteMallocBlock<br/>堆上 block<br/>引用计数管理"]
+    H --> C["copy helper<br/>retain 捕获的对象<br/>搬迁 __block byref"]
+    H --> D["dispose helper<br/>release 捕获的对象<br/>释放 byref 结构"]
+    H --> E["block 调用<br/>block->invoke(block, 参数...)"]
+```
+
+1. **Global Block**
+
+不捕获普通自动局部变量，或者只访问全局变量、静态变量时，通常是全局 block。
+
+它在全局区/常量区，`copy/release` 通常没有真实内存压力。
+
+2. **Stack Block**
+
+捕获普通自动局部变量时，最初可能是栈 block。
+
+如果函数返回以后还继续使用它，就必须 copy 到堆上，否则 block 本体和捕获上下文都会随着栈帧失效。
+
+3. **Malloc Block**
+
+当 block 逃逸，比如赋值给属性、被异步保存、作为返回值使用时，ARC / `Block_copy` 会把它复制到堆上。
+
+堆 block 通过引用计数管理生命周期；销毁时通过 descriptor 里的 dispose helper 释放捕获对象、释放 `__block` byref 结构，最后释放 block 自己的堆内存。
+
+### 11.8.10.5 Block 有 `release` 方法吗
+
+看 block rewrite 出来的结构体时，很容易疑惑：
+
+```cpp
+struct __block_impl {
+    void *isa;
+    int Flags;
+    int Reserved;
+    void *FuncPtr;
+};
+```
+
+这里没有 `release` 字段，那 block 怎么释放？
+
+答案是：
+
+> 普通 Objective-C 对象实例内存里也没有 `release` 字段；`release` 是通过 `isa` 指向的类对象/Runtime 实现找到的。
+
+普通对象：
+
+```text
+NSObject 对象内存
+[ isa | ivars... ]
+```
+
+这里也没有 `release` 函数指针。
+
+Block 也是类似：
+
+```text
+Block 对象内存
+[ isa | Flags | Reserved | FuncPtr | Desc | captures... ]
+```
+
+它依靠第一个字段 `isa` 接入 Objective-C / Block Runtime。
+
+比如 rewrite 代码里常见：
+
+```cpp
+impl.isa = &_NSConcreteStackBlock;
+```
+
+当 block 被 copy 到堆上以后，`isa` 会对应到堆 block 的运行时类，例如 `_NSConcreteMallocBlock`。后续 retain/release/copy 的语义由 Block Runtime 和 Objective-C Runtime 配合完成，而不是把一个 `release` 函数指针放进 block 结构体本身。
+
+### 11.8.10.6 autorelease pool 释放持有 block 的对象时，block 怎么释放
+
+`autorelease pool` drain 时，只会对 pool 里记录的对象指针触发一次 `release` 语义。
+
+它不会主动遍历这个对象的所有 strong 属性。
+
+为了只看释放链路，假设 pool 里有一个已经登记过的对象 `obj`，而 `obj` 有一个 strong/copy block 属性：
+
+```objc
+@interface Holder : NSObject
+@property (nonatomic, copy) void (^block)(void);
+@end
+
+Holder *obj = someAutoreleasedHolder;
+obj.block = ^{
+    NSLog(@"hello");
+};
+```
+
+释放链路是：
+
+```text
+autorelease pool pop
+    |
+    v
+对 pool 里记录的 obj 执行 release
+    |
+    v
+obj 引用计数 -1
+    |
+    v
+如果 obj 引用计数归零
+    |
+    v
+obj dealloc
+    |
+    v
+ARC 生成 .cxx_destruct
+    |
+    v
+释放 strong/copy ivar: _block
+    |
+    v
+release 堆 block
+    |
+    v
+如果 block 引用计数归零
+    |
+    v
+调用 block dispose helper
+    |
+    v
+release block 捕获的对象 / 释放 byref 结构
+    |
+    v
+free block 自己的堆内存
+```
+
+所以要分清两层：
+
+- autorelease pool 负责延迟触发 pool 中对象的 `release`
+- 对象真正 dealloc 时，ARC 再释放它自己的 strong/copy 成员
+- block 成员被释放后，堆 block 的引用计数归零，Block Runtime 才释放捕获上下文和 block 自己
+
+### 11.8.10.7 Block 捕获不同变量时，内存上有什么差别
+
+#### 1. 普通数值局部变量：捕获值
+
+```objc
+int a = 10;
+void (^block)(void) = ^{
+    NSLog(@"%d", a);
+};
+```
+
+block 结构体里保存一份 `a` 的值：
+
+```text
+Block
+┌──────────────┐
+│ captured a=10│
+└──────────────┘
+```
+
+默认情况下，block 内部不能修改这个捕获值。
+
+#### 2. 对象类型局部变量：捕获对象指针和所有权语义
+
+```objc
+NSObject *obj = [NSObject new];
+void (^block)(void) = ^{
+    NSLog(@"%@", obj);
+};
+```
+
+block 结构体里保存的是对象指针。
+
+当 block 被 copy 到堆上时：
+
+- 如果捕获的是强引用对象，copy helper 会 retain 这个对象
+- block 销毁时，dispose helper 会 release 这个对象
+- 如果捕获的是 `__weak`，block 保存弱引用语义，不会强持有对象
+
+可以粗略理解为：
+
+```text
+堆 block
+┌────────────────────┐
+│ captured obj pointer│
+└─────────┬──────────┘
+          │ strong capture
+          v
+普通堆对象
+[ non-pointer isa | ivars... ]
+```
+
+#### 3. 静态局部变量：捕获地址
+
+```objc
+static int s = 10;
+void (^block)(void) = ^{
+    s++;
+};
+```
+
+`s` 在全局/静态区，地址稳定，程序生命周期内都有效。
+
+```text
+全局/静态区
+┌──────────────┐
+│ static int s │
+└──────▲───────┘
+       │
+       │ 直接按地址访问
+       │
+Block ─┘
+```
+
+所以 block 不需要负责 `s` 的生命周期。
+
+#### 4. 全局变量和全局静态变量：通常不作为捕获字段保存
+
+```objc
+int g = 10;
+static int fileStatic = 20;
+
+void (^block)(void) = ^{
+    g++;
+    fileStatic++;
+};
+```
+
+全局变量和文件内静态变量本来就能通过符号地址访问，block 通常不需要把它们作为捕获字段保存进结构体。
+
+#### 5. `__block` 变量：捕获 byref 结构
+
+```objc
+__block int x = 10;
+void (^block)(void) = ^{
+    x++;
+};
+```
+
+`__block` 变量不是简单保存一个 `int *`，而是会被包装成 byref 结构：
+
+```cpp
+struct __Block_byref_x_0 {
+    void *__isa;
+    __Block_byref_x_0 *__forwarding;
+    int __flags;
+    int __size;
+    int x;
+};
+```
+
+block 里保存的是这个 byref 结构指针，访问时通过：
+
+```cpp
+x->__forwarding->x
+```
+
+这层 `forwarding` 是理解 `__block` 的关键。
+
+### 11.8.10.7.1 `__block object` 在 ARC 和 MRC 下的循环引用差异
+
+看这段代码：
+
+```objc
+__block MCBlock *blockSelf = self;
+
+_blk = ^int(int num) {
+    return num * blockSelf.var;
+};
+```
+
+如果 `_blk` 是 `self` 的 block ivar / block 属性，那么这里最容易误解的一句话是：
+
+> 非 ARC 下没有内存泄漏。
+
+更准确地说应该是：
+
+> **非 ARC 下，`__block` 修饰的对象变量被 block 捕获时不会自动 retain，所以这段代码不会形成这一条 `self -> block -> self` 的强引用循环。不是说非 ARC 就不会内存泄漏。**
+
+#### ARC 下
+
+ARC 下，`__block MCBlock *blockSelf = self;` 里的 `blockSelf` 默认仍然是强所有权。
+
+当 block 被 copy 到堆上时，它会捕获这个 byref 结构；这个 byref 结构里的对象变量会按 ARC 所有权规则强持有 `self`。
+
+所以关系变成：
+
+```text
+self
+  |
+  | strong/copy
+  v
+_blk 堆 block
+  |
+  | strong capture
+  v
+__block byref blockSelf
+  |
+  | strong
+  v
+self
+```
+
+也就是：
+
+```text
+self -> block -> blockSelf -> self
+```
+
+这就是循环引用。
+
+ARC 下不要用 `__block` 解决 `self` 的循环引用，应该用：
+
+```objc
+__weak typeof(self) weakSelf = self;
+
+_blk = ^int(int num) {
+    return num * weakSelf.var;
+};
+```
+
+如果希望 block 执行期间 `self` 不突然释放，可以在 block 内部临时转强：
+
+```objc
+__weak typeof(self) weakSelf = self;
+
+_blk = ^int(int num) {
+    __strong typeof(weakSelf) self = weakSelf;
+    if (!self) return 0;
+    return num * self.var;
+};
+```
+
+#### MRC / 非 ARC 下
+
+MRC 下，`__block` 修饰的对象变量被 block 捕获时，block 不会自动 retain 它指向的对象。
+
+所以关系更像：
+
+```text
+self
+  |
+  | retain/copy
+  v
+_blk 堆 block
+  |
+  | 保存指针，但不 retain
+  v
+__block byref blockSelf
+  |
+  | 裸指针语义
+  v
+self
+```
+
+这里没有形成强引用环。
+
+但这不代表 MRC 没有内存泄漏。MRC 里如果你手动 `copy` block 后忘记 `release`，或者手动 `retain` 对象后忘记 `release`，一样会泄漏。
+
+一句话：
+
+> MRC 是“这条 `__block object` 捕获链路不 retain，所以不构成循环”；ARC 是“`__block object` 默认强持有，所以可能构成循环”。
+
+### 11.8.10.7.2 `_blk = ^{...}` 表面是赋值，为什么 ARC 下会有 copy
+
+源码里看起来只是：
+
+```objc
+_blk = ^int(int num) {
+    return num * blockSelf.var;
+};
+```
+
+但在 ARC 下，这不是普通 C 指针赋值。
+
+如果 `_blk` 是一个强持有的 block ivar，或者通过 `copy` block 属性保存，编译器 / setter 会保证这个 block 可以安全逃逸。
+
+原因是：
+
+- 捕获 auto 局部变量的 block 最初可能是栈 block
+- `_blk` 是对象的成员，生命周期可能超过当前函数栈帧
+- 如果只把栈 block 地址直接保存到 `_blk`，函数返回后 `_blk` 就会指向失效栈内存
+
+所以 ARC 会在合适位置插入 block 的 retain/copy 语义。粗略理解类似：
+
+```text
+tmp = objc_retainBlock(stackBlock)   // 必要时把栈 block copy 到堆上
+objc_storeStrong(&_blk, tmp)         // _blk 持有新 block，释放旧 block
+objc_release(tmp)
+```
+
+具体生成代码可能被编译器优化，但语义是：
+
+```text
+源码:
+_blk = block 字面量
+
+ARC 语义:
+1. 生成一个可能在栈上的 block
+2. 发现它要保存到强 block ivar / copy 属性中
+3. 必要时 copy 到堆上，变成 _NSConcreteMallocBlock
+4. _blk 保存堆 block 地址，并强持有它
+```
+
+图可以这样看：
+
+```text
+赋值前
+
+栈 block
+┌──────────────────────────┐
+│ isa = _NSConcreteStackBlock│
+│ invoke                   │
+│ captured blockSelf       │
+└──────────────────────────┘
+
+赋值给 _blk 后
+
+self
+  |
+  | strong/copy
+  v
+_blk
+  |
+  v
+堆 block
+┌───────────────────────────┐
+│ isa = _NSConcreteMallocBlock│
+│ invoke                    │
+│ captured blockSelf        │
+└───────────────────────────┘
+```
+
+如果是属性：
+
+```objc
+@property (nonatomic, copy) int (^blk)(int);
+
+self.blk = ^int(int num) {
+    return num * blockSelf.var;
+};
+```
+
+`copy` 来自 setter 的语义。
+
+如果是直接访问 ivar：
+
+```objc
+_blk = ^int(int num) {
+    return num * blockSelf.var;
+};
+```
+
+ARC 仍然会根据 block 指针的强所有权语义，保证 block 被安全持有。
+
+但在 MRC 下，直接写：
+
+```objc
+_blk = ^int(int num) {
+    return num * blockSelf.var;
+};
+```
+
+通常只是普通赋值，不会自动 copy。正确做法一般是：
+
+```objc
+_blk = [^int(int num) {
+    return num * blockSelf.var;
+} copy];
+```
+
+并在合适时机：
+
+```objc
+[_blk release];
+```
+
+一句话：
+
+> ARC 下 `_blk = ^{...};` 表面是赋值，实际包含“让 block 安全逃逸到堆上并被强持有”的语义；MRC 下没有这层自动动作，需要手动 `copy` 和 `release`。
+
+### 11.8.10.8 `__block` 为什么不用静态局部变量那种“直接传地址”方案
+
+静态局部变量可以直接传地址，是因为它的地址天然稳定：
+
+```text
+static 局部变量
+位置：全局/静态区
+生命周期：程序级
+地址：稳定
+```
+
+普通 `__block` 局部变量不一样。
+
+它原始位置在当前函数栈帧里：
+
+```text
+普通局部变量 / 初始 byref 结构
+位置：栈
+生命周期：当前函数调用
+地址：函数返回后失效
+```
+
+如果 block 逃逸到函数外，只保存原始栈地址会变成悬垂指针：
+
+```text
+堆 block
+┌──────────────┐
+│ int *x = &x  │ ─────┐
+└──────────────┘      │
+                      v
+函数栈帧
+┌──────────────┐
+│ int x = 10   │
+└──────────────┘
+
+函数返回后，栈帧销毁，block 里的 x 指针悬空。
+```
+
+所以 `__block` 使用 byref + forwarding：
+
+```text
+block 还没 copy 时
+
+栈区
+┌──────────────────────────────┐
+│ byref_x_on_stack              │
+│ forwarding ─────┐             │
+│ x = 10          │             │
+└─────────────────┼────────────┘
+                  │
+                  └── 指向自己
+
+栈 block
+┌──────────────────────────────┐
+│ isa = _NSConcreteStackBlock   │
+│ invoke                        │
+│ Desc                          │
+│ x ────────────────┐           │
+└───────────────────┼──────────┘
+                    v
+             byref_x_on_stack
+```
+
+block copy 到堆上以后：
+
+```text
+block copy 后
+
+栈区
+┌──────────────────────────────┐
+│ old byref_x                  │
+│ forwarding ───────────────┐  │
+└───────────────────────────┼──┘
+                            │
+                            v
+
+堆区
+┌──────────────────────────────┐
+│ new byref_x                  │
+│ forwarding ─────┐            │
+│ x = 10          │            │
+└─────────────────┼────────────┘
+                  │
+                  └── 指向自己
+
+堆 block
+┌──────────────────────────────┐
+│ isa = _NSConcreteMallocBlock  │
+│ invoke                        │
+│ Desc                          │
+│ x ───────────────────────┐    │
+└──────────────────────────┼────┘
+                           v
+                    new byref_x_on_heap
+```
+
+访问时始终走：
+
+```cpp
+x->__forwarding->x
+```
+
+这样无论当前访问点拿到的是旧栈 byref，还是新堆 byref，最终都会找到有效的那份变量。
+
+所以 `__block` 解决的是三个问题：
+
+- block 逃逸后，变量能从栈迁移到堆
+- block 内外访问的是同一份变量
+- 对象类型 `__block` 变量可以通过 copy/dispose helper 做正确内存管理
+
+### 11.8.10.9 业务代码里能借鉴 `__block byref` 的什么思想
+
+`__block byref` 的设计思想可以抽象成：
+
+> 不要把会失效的栈地址交给异步/逃逸代码；把状态提升到堆上，并通过一层稳定引用来访问。
+
+普通业务代码里常见的类似场景有：
+
+#### 1. 异步回调里共享和修改局部状态
+
+不要让异步代码依赖一个会随函数返回消失的栈地址，而是用堆对象承载状态：
+
+```objc
+@interface RequestState : NSObject
+@property (nonatomic, assign) NSInteger count;
+@property (nonatomic, assign) BOOL cancelled;
+@end
+
+RequestState *state = [RequestState new];
+
+[self fetch:^{
+    state.count++;
+}];
+```
+
+这里的 `state` 就像业务版的 byref box：block 捕获的是稳定的堆对象指针。
+
+#### 2. 多个回调共享同一份上下文
+
+```objc
+UploadContext *context = [UploadContext new];
+context.progress = 0;
+context.retryCount = 0;
+
+self.progressBlock = ^{
+    context.progress += 0.1;
+};
+
+self.retryBlock = ^{
+    context.retryCount++;
+};
+```
+
+多个 block 都指向同一个上下文对象，所以它们共享同一份状态。
+
+#### 3. C API 的 `void *context` 回调
+
+很多底层 C API 会让你传：
+
+```text
+callback + void *context
+```
+
+如果回调是异步发生的，不要传栈变量地址：
+
+```objc
+MyContext ctx;
+SomeCStart(callback, &ctx); // 异步场景危险
+```
+
+应该使用堆上 context，并在合适时机释放：
+
+```objc
+MyContext *ctx = malloc(sizeof(MyContext));
+SomeCStart(callback, ctx);
+```
+
+如果 context 是 Objective-C 对象，可以通过 bridge 语义明确所有权：
+
+```objc
+SomeCStart(callback, (__bridge_retained void *)obj);
+```
+
+回调完成或取消时，再用对应的释放方式交还所有权。
+
+#### 4. 异步任务取消、去重、防止旧回调污染新状态
+
+```objc
+ImageLoadToken *token = [ImageLoadToken new];
+self.currentToken = token;
+
+[loader load:url completion:^(UIImage *image) {
+    if (token != self.currentToken) return;
+    self.imageView.image = image;
+}];
+```
+
+这里的 `token` 也是一种稳定的堆上身份，用来跨越异步边界判断“这个回调是不是还属于当前任务”。
+
+#### 5. Swift escaping closure 捕获可变变量
+
+Swift 里如果 escaping closure 捕获可变局部变量，编译器也会使用类似“堆上 box”的思想：
+
+```swift
+var count = 0
+
+let closure = {
+    count += 1
+}
+```
+
+它和 Objective-C 的 `__block byref` 不完全等同，但核心思想接近：让逃逸闭包通过稳定的堆上结构访问可变状态。
+
+一句话总结：
+
+> 只要一个局部状态要被“函数返回之后还会执行的代码”继续使用，就不要传栈地址；用对象、context、token、box、session 这类堆上结构承载它。
+
 ### 11.8.11 Tagged Pointer 会进 autorelease pool 吗
 
 通常不会按普通堆对象那样真正进 pool 管理。
@@ -3150,6 +3943,50 @@ flowchart TD
 #### 11.13.10.3 ARC 编译器大致会插入哪些内存管理动作
 
 > ARC 会围绕所有权语义插入 retain、release、autorelease、strong 存储、weak 存储/读取、返回值优化、block 捕获管理和 autorelease pool push/pop。常见 Runtime 调用包括 `objc_retain`、`objc_release`、`objc_storeStrong`、`objc_storeWeak`、`objc_loadWeakRetained`、`objc_autoreleaseReturnValue`、`objc_retainAutoreleasedReturnValue`、`objc_autoreleasePoolPush`、`objc_autoreleasePoolPop`。  
+
+#### 11.13.10.4 Block 是 tagged pointer 还是普通对象路径
+
+> Block 不是 tagged pointer。block 指针指向一块真实内存，内存开头有 `isa`，后面是 `Flags`、`FuncPtr/invoke`、`Desc` 和捕获上下文。它更接近“带 `isa` 的结构体对象”：不是普通 NSObject 的 `[ non-pointer isa | ivars... ]` 简化布局，但会通过 Objective-C / Block Runtime 做 copy、retain、release 和 dispose。
+
+#### 11.13.10.5 Block 调用为什么说是函数调用
+
+> 编译器会把 block 字面量改写成结构体，把 block 调用改写成对 `FuncPtr/invoke` 的函数调用。block 自己会作为第一个参数传进去，函数内部再从 block 结构体字段里读取捕获变量，所以 block 可以理解成“函数指针 + 上下文”的封装。
+
+#### 11.13.10.6 Block 的三种内存形态是什么
+
+> 常见是 global block、stack block、malloc block。不捕获普通 auto 局部变量时通常是 global block；捕获 auto 局部变量时最初可能是 stack block；当 block 逃逸，比如赋值给属性、异步保存、作为返回值使用时，ARC / `Block_copy` 会把它复制到堆上，变成 malloc block，并通过引用计数管理。
+
+#### 11.13.10.7 堆 block 销毁时怎么释放捕获对象
+
+> 堆 block 引用计数归零时，Block Runtime 会调用 block descriptor 里的 dispose helper。dispose helper 会 release 强捕获的对象、释放 `__block` byref 结构等，最后再释放 block 自己的堆内存。和普通对象一样，释放逻辑不是写在 block 结构体字段里的一个 `release` 函数。
+
+#### 11.13.10.8 Block 结构体里没有 `release` 方法，为什么还能 release
+
+> 普通 Objective-C 对象实例内存里也没有 `release` 字段，`release` 是通过 `isa` 指向的类对象/Runtime 实现找到的。Block 的结构体第一个字段也是 `isa`，比如 `_NSConcreteStackBlock`、`_NSConcreteMallocBlock`、`_NSConcreteGlobalBlock`，所以 Runtime 可以对它执行 block 的 copy/release 语义。
+
+#### 11.13.10.9 autorelease pool 释放持有 block 的对象时，block 怎么释放
+
+> autorelease pool 只对池里记录的对象指针触发一次 `release`，不会主动遍历对象属性。如果池里的对象因此引用计数归零，它进入 `dealloc`，ARC 生成的析构逻辑会释放 strong/copy ivar。若其中有 block ivar，就会 release 这个 block；堆 block 引用计数归零后，再调用 dispose helper 释放捕获上下文。
+
+#### 11.13.10.10 Block 捕获变量有哪些常见方式
+
+> 普通数值局部变量通常捕获值；对象类型局部变量捕获对象指针和所有权语义，堆 block 会按强弱修饰决定 retain/release；静态局部变量按地址访问，因为它在全局/静态区，地址稳定；全局变量和文件内静态变量通常不作为捕获字段保存；`__block` 变量会被包装成 byref 结构，通过 `forwarding` 间接访问。
+
+#### 11.13.10.11 `__block` 为什么不用静态局部变量那样直接传地址
+
+> 静态局部变量的地址在全局/静态区，程序生命周期内稳定；普通 `__block` 局部变量原始位置在栈上，函数返回后地址会失效。如果 block 逃逸还直接保存栈地址，就会悬垂。`__block` 用 byref 结构和 `forwarding` 指针，让变量能随 block copy 从栈迁移到堆，并保证 block 内外始终访问同一份有效变量。
+
+#### 11.13.10.12 业务代码里能借鉴 `__block byref` 的什么思想
+
+> 核心思想是：不要把会失效的栈地址交给异步/逃逸代码；把状态提升到堆上，并通过稳定引用访问。常见做法是用 context 对象、token、box、session 等承载异步状态，比如多个 block 共享上传上下文、C API 的 `void *context` 使用堆内存、图片加载用 token 防止旧回调污染新状态。
+
+#### 11.13.10.13 为什么说 MRC 下 `__block self` 不形成这条 block 循环引用
+
+> 更准确不是“非 ARC 没有内存泄漏”，而是 MRC 下 `__block` 修饰的对象变量被 block 捕获时不会自动 retain 这个对象，所以不会形成 `self -> block -> __block self -> self` 这条强引用环。ARC 下 `__block object` 默认仍是强所有权，block copy 到堆上后会强持有 byref 里的对象，所以会循环；ARC 下应使用 `__weak typeof(self) weakSelf = self` 来打断循环。
+
+#### 11.13.10.14 `_blk = ^{...}` 看起来是赋值，为什么 ARC 下 block 会被 copy
+
+> 因为捕获 auto 局部变量的 block 最初可能是栈 block，而 `_blk` 是对象成员，生命周期可能超过当前函数栈帧。ARC 看到 block 要保存到强 block ivar 或 copy 属性时，会插入 retainBlock/copy 语义，必要时把栈 block 复制到堆上，再让 `_blk` 强持有堆 block。MRC 下直接赋值不会自动 copy，需要手动 `[block copy]`，并在合适时机 `release`。
 
 #### 11.13.11 Tagged Pointer 会像普通对象一样进 autorelease pool 吗
 
