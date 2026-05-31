@@ -2,6 +2,7 @@
 #import "ADDemoCell.h"
 #import "ADFPSLabel.h"
 #import "ADFeedItem.h"
+#import "ADLayoutSizingViewController.h"
 
 static NSString * const kSyncCellIdentifier = @"SyncCell";
 static NSString * const kUIKitCellIdentifier = @"UIKitCell";
@@ -40,10 +41,19 @@ typedef NS_ENUM(NSInteger, ADRenderMode) {
     self.view.backgroundColor = [UIColor colorWithRed:0.92 green:0.94 blue:0.97 alpha:1.0];
     self.renderMode = ADRenderModeSync;
     self.version = 1;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"布局尺寸"
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(openLayoutSizingDemo)];
 
     [self buildViews];
     [self reloadItems];
     [self updateCopy];
+}
+
+- (void)openLayoutSizingDemo {
+    ADLayoutSizingViewController *viewController = [[ADLayoutSizingViewController alloc] init];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)buildViews {
