@@ -79,6 +79,7 @@
 		5D0010000000000000000001 /* test-runloop-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-runloop-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E0010000000000000000001 /* test-oc-language-features.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-oc-language-features.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F0010000000000000000001 /* test-multithreading-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-multithreading-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		600010000000000000000001 /* test-mainqueue-scroll-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-mainqueue-scroll-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7487CA0D902043FB0A0A408 /* Pods-test-ui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-ui.debug.xcconfig"; path = "Target Support Files/Pods-test-ui/Pods-test-ui.debug.xcconfig"; sourceTree = "<group>"; };
 		B587825952AFA1B065BFCEDA /* Pods_test_ui.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test_ui.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2694598F60D54067E3FA3BF /* Pods-swift-test-cmd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-test-cmd.release.xcconfig"; path = "Target Support Files/Pods-swift-test-cmd/Pods-swift-test-cmd.release.xcconfig"; sourceTree = "<group>"; };
@@ -169,6 +170,13 @@
 				Info.plist,
 			);
 			target = 5F0010000000000000000007 /* test-multithreading-demo */;
+		};
+		600010000000000000000002 /* Exceptions for "test-mainqueue-scroll-demo" folder in "test-mainqueue-scroll-demo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 600010000000000000000007 /* test-mainqueue-scroll-demo */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -292,6 +300,14 @@
 				5F0010000000000000000002 /* Exceptions for "test-multithreading-demo" folder in "test-multithreading-demo" target */,
 			);
 			path = "test-multithreading-demo";
+			sourceTree = "<group>";
+		};
+		600010000000000000000003 /* test-mainqueue-scroll-demo */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				600010000000000000000002 /* Exceptions for "test-mainqueue-scroll-demo" folder in "test-mainqueue-scroll-demo" target */,
+			);
+			path = "test-mainqueue-scroll-demo";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -418,6 +434,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		600010000000000000000004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -442,6 +465,7 @@
 				5D0010000000000000000003 /* test-runloop-demo */,
 				5E0010000000000000000003 /* test-oc-language-features */,
 				5F0010000000000000000003 /* test-multithreading-demo */,
+				600010000000000000000003 /* test-mainqueue-scroll-demo */,
 				0D71BAD22DA7EC8600191E88 /* Products */,
 				C8EC01A266D7401CEFEE5C0D /* Pods */,
 				E28C812821C0C4CEA9E479DD /* Frameworks */,
@@ -468,6 +492,7 @@
 				5D0010000000000000000001 /* test-runloop-demo.app */,
 				5E0010000000000000000001 /* test-oc-language-features.app */,
 				5F0010000000000000000001 /* test-multithreading-demo.app */,
+				600010000000000000000001 /* test-mainqueue-scroll-demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -866,6 +891,28 @@
 			productReference = 5F0010000000000000000001 /* test-multithreading-demo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		600010000000000000000007 /* test-mainqueue-scroll-demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60001000000000000000000A /* Build configuration list for PBXNativeTarget "test-mainqueue-scroll-demo" */;
+			buildPhases = (
+				600010000000000000000005 /* Sources */,
+				600010000000000000000004 /* Frameworks */,
+				600010000000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				600010000000000000000003 /* test-mainqueue-scroll-demo */,
+			);
+			name = "test-mainqueue-scroll-demo";
+			packageProductDependencies = (
+			);
+			productName = "test-mainqueue-scroll-demo";
+			productReference = 600010000000000000000001 /* test-mainqueue-scroll-demo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -956,6 +1003,7 @@
 				5D0010000000000000000007 /* test-runloop-demo */,
 				5E0010000000000000000007 /* test-oc-language-features */,
 				5F0010000000000000000007 /* test-multithreading-demo */,
+				600010000000000000000007 /* test-mainqueue-scroll-demo */,
 			);
 		};
 /* End PBXProject section */
@@ -1053,6 +1101,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5F0010000000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		600010000000000000000006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1243,6 +1298,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5F0010000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		600010000000000000000005 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1908,7 +1970,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "test-async-draw-oc/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1933,7 +1994,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "test-async-draw-oc/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -2261,6 +2321,63 @@
 			};
 			name = Release;
 		};
+		600010000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-mainqueue-scroll-demo/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.test-mainqueue-scroll-demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		600010000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "test-mainqueue-scroll-demo/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.test-mainqueue-scroll-demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2422,6 +2539,15 @@
 			buildConfigurations = (
 				5F0010000000000000000008 /* Debug */,
 				5F0010000000000000000009 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60001000000000000000000A /* Build configuration list for PBXNativeTarget "test-mainqueue-scroll-demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				600010000000000000000008 /* Debug */,
+				600010000000000000000009 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

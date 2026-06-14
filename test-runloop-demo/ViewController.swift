@@ -10,6 +10,8 @@ import UIKit
 final class ViewController: UIViewController {
 
     private let lab = RunLoopThreadLab()
+    private let sourceOnlyLab = SourceOnlyLoggerLab()
+    private let exitConditionLab = RunLoopExitConditionLab()
 
     private let scrollView = UIScrollView()
     private let contentStack = UIStackView()
@@ -17,6 +19,8 @@ final class ViewController: UIViewController {
     private let statusLabel = UILabel()
     private let activityLabel = UILabel()
     private let meaningLabel = UILabel()
+    private let exitConditionStatusLabel = UILabel()
+    private let sourceOnlyStatusLabel = UILabel()
     private let logTextView = UITextView()
 
     override func viewDidLoad() {
@@ -30,6 +34,7 @@ final class ViewController: UIViewController {
         super.viewDidDisappear(animated)
         if isMovingFromParent || navigationController == nil {
             lab.stop()
+            sourceOnlyLab.stop()
         }
     }
 
@@ -61,6 +66,8 @@ final class ViewController: UIViewController {
             makeIntroCard(),
             makeStateCard(),
             makeControlsCard(),
+            makeExitConditionCard(),
+            makeSourceOnlyLoggerCard(),
             makeLogCard()
         ].forEach(contentStack.addArrangedSubview)
     }
@@ -76,6 +83,22 @@ final class ViewController: UIViewController {
         }
 
         lab.onLog = { [weak self] line in
+            self?.appendLog(line)
+        }
+
+        sourceOnlyLab.onStatusChange = { [weak self] text in
+            self?.sourceOnlyStatusLabel.text = "Source-only 日志线程：\(text)"
+        }
+
+        sourceOnlyLab.onLog = { [weak self] line in
+            self?.appendLog(line)
+        }
+
+        exitConditionLab.onStatusChange = { [weak self] text in
+            self?.exitConditionStatusLabel.text = "退出条件实验：\(text)"
+        }
+
+        exitConditionLab.onLog = { [weak self] line in
             self?.appendLog(line)
         }
     }
@@ -120,6 +143,31 @@ final class ViewController: UIViewController {
         appendLog("日志已清空")
     }
 
+    @objc private func runExitConditionCases() {
+        appendLog("主线程点击：运行 RunLoop 退出条件实验")
+        exitConditionLab.runAllCases()
+    }
+
+    @objc private func startSourceOnlyLogger() {
+        appendLog("主线程点击：启动 Source-only 日志线程")
+        sourceOnlyLab.startIfNeeded()
+    }
+
+    @objc private func stopSourceOnlyLogger() {
+        appendLog("主线程点击：停止 Source-only 日志线程")
+        sourceOnlyLab.stop()
+    }
+
+    @objc private func enqueueSourceOnlySignalOnly() {
+        appendLog("主线程点击：提交业务日志，只 signal Source0")
+        sourceOnlyLab.enqueueDemoEvents(count: 5, wakeUp: false)
+    }
+
+    @objc private func enqueueSourceOnlyAndWakeUp() {
+        appendLog("主线程点击：提交业务日志，signal Source0 + wakeUp")
+        sourceOnlyLab.enqueueDemoEvents(count: 5, wakeUp: true)
+    }
+
     private func makeIntroCard() -> UIView {
         let titleLabel = UILabel()
         titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
@@ -138,6 +186,8 @@ final class ViewController: UIViewController {
         4. Timer：在 worker RunLoop 上安排一个定时器
         5. block：这里特指 CFRunLoopPerformBlock 投递到某个 RunLoop 的任务
         6. observer：观察 6 个状态 Entry / BeforeTimers / BeforeSources / BeforeWaiting / AfterWaiting / Exit
+        7. exit condition：验证空 RunLoop、只加 Observer、只加 Source0、只加 Timer 时 run 是否返回
+        8. source-only logger：只添加自定义 Source0，不添加 Port，用常驻线程批量写业务日志
         """
 
         statusLabel.font = .systemFont(ofSize: 14, weight: .medium)
@@ -225,6 +275,76 @@ final class ViewController: UIViewController {
         return makeCard(with: [titleLabel, grid, hintLabel])
     }
 
+    private func makeExitConditionCard() -> UIView {
+        let titleLabel = UILabel()
+        titleLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+        titleLabel.textColor = UIColor(red: 0.15, green: 0.18, blue: 0.24, alpha: 1)
+        titleLabel.text = "RunLoop 退出条件实验"
+
+        exitConditionStatusLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        exitConditionStatusLabel.numberOfLines = 0
+        exitConditionStatusLabel.textColor = UIColor(red: 0.22, green: 0.39, blue: 0.78, alpha: 1)
+        exitConditionStatusLabel.text = "退出条件实验：未运行"
+
+        let descLabel = UILabel()
+        descLabel.font = .systemFont(ofSize: 13)
+        descLabel.numberOfLines = 0
+        descLabel.textColor = UIColor(red: 0.50, green: 0.54, blue: 0.62, alpha: 1)
+        descLabel.text = """
+        这个实验会依次启动临时线程，分别测试：空 RunLoop、只加 Observer、只加 Source0、不唤醒的 Source0、signal+wakeUp 的 Source0、只加 Timer。看日志里的 elapsed：几毫秒返回就是没保住；等到 timeout 或事件触发才说明当前 mode 有可等待对象。
+        """
+
+        let button = makeActionButton(title: "运行退出条件实验", action: #selector(runExitConditionCases))
+        return makeCard(with: [titleLabel, exitConditionStatusLabel, descLabel, button])
+    }
+
+    private func makeSourceOnlyLoggerCard() -> UIView {
+        let titleLabel = UILabel()
+        titleLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+        titleLabel.textColor = UIColor(red: 0.15, green: 0.18, blue: 0.24, alpha: 1)
+        titleLabel.text = "Source0 保活：业务日志批量落盘"
+
+        sourceOnlyStatusLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        sourceOnlyStatusLabel.numberOfLines = 0
+        sourceOnlyStatusLabel.textColor = UIColor(red: 0.22, green: 0.39, blue: 0.78, alpha: 1)
+        sourceOnlyStatusLabel.text = "Source-only 日志线程：未启动"
+
+        let descLabel = UILabel()
+        descLabel.font = .systemFont(ofSize: 13)
+        descLabel.numberOfLines = 0
+        descLabel.textColor = UIColor(red: 0.50, green: 0.54, blue: 0.62, alpha: 1)
+        descLabel.text = """
+        实际场景：主线程产生页面曝光、点击、调试日志等事件，不直接写文件，而是交给一个常驻 worker 线程批量落盘。这个 worker 的 RunLoop 只添加自定义 Source0，不添加 Port。
+
+        观察重点：Source0 只 signal 时，睡着的线程不会立刻醒；signal + wakeUp 后才会执行 callback，把堆积日志一次性写入 Caches。
+        """
+
+        let buttons: [(String, Selector)] = [
+            ("启动日志线程", #selector(startSourceOnlyLogger)),
+            ("停止日志线程", #selector(stopSourceOnlyLogger)),
+            ("提交日志只 signal", #selector(enqueueSourceOnlySignalOnly)),
+            ("提交日志并 wakeUp", #selector(enqueueSourceOnlyAndWakeUp))
+        ]
+
+        let grid = UIStackView()
+        grid.axis = .vertical
+        grid.spacing = 10
+
+        for pair in stride(from: 0, to: buttons.count, by: 2) {
+            let row = UIStackView()
+            row.axis = .horizontal
+            row.spacing = 10
+            row.distribution = .fillEqually
+
+            for index in pair..<min(pair + 2, buttons.count) {
+                row.addArrangedSubview(makeActionButton(title: buttons[index].0, action: buttons[index].1))
+            }
+            grid.addArrangedSubview(row)
+        }
+
+        return makeCard(with: [titleLabel, sourceOnlyStatusLabel, descLabel, grid])
+    }
+
     private func makeLogCard() -> UIView {
         let titleLabel = UILabel()
         titleLabel.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -278,6 +398,8 @@ final class ViewController: UIViewController {
         let button = UIButton(type: .system)
         button.configuration = configuration
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.lineBreakMode = .byWordWrapping
         button.addTarget(self, action: action, for: .touchUpInside)
         return button
     }

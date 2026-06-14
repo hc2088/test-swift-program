@@ -111,7 +111,7 @@ final class RunLoopThreadLab: NSObject, PortDelegate {
         lock.unlock()
 
         guard let port else {
-            emitLog("Port(Source1) 还没准备好，请先启动 worker RunLoop")
+            emitLog("Port 还没准备好，请先启动 worker RunLoop。Port 加入 RunLoop 后才会形成 port-based input source")
             return
         }
 
@@ -124,7 +124,7 @@ final class RunLoopThreadLab: NSObject, PortDelegate {
             from: nil,
             reserved: 0
         )
-        emitLog("主线程发送 Port 消息(Source1)，success = \(success)")
+        emitLog("主线程向 worker Port 发送消息；RunLoop 侧会通过 port-based input source(Source1) 收到，success = \(success)")
     }
 
     func scheduleWorkerTimer() {
@@ -190,7 +190,7 @@ final class RunLoopThreadLab: NSObject, PortDelegate {
         installSource0(on: cfRunLoop)
         installPort(on: runLoop)
 
-        emitStatus("worker RunLoop 已启动：使用 Port 保活，Source0/Source1/Timer/block 都可投递")
+        emitStatus("worker RunLoop 已启动：使用 Port 保活，Source0/port-based Source1/Timer/block 都可投递")
         emitLog("worker 线程开始进入 run(mode:before:) 循环")
         started.signal()
 
@@ -247,9 +247,11 @@ final class RunLoopThreadLab: NSObject, PortDelegate {
     }
 
     private func installPort(on runLoop: RunLoop) {
-        // Port 既有两个作用：
-        // 1. 作为 port-based input source，帮助保活当前 mode
-        // 2. 作为 Source1 示例，主线程可以主动发消息进来
+        // Port 和 Source1 不是同一个东西：
+        // 1. Port 是通信端点，用来收发消息。
+        // 2. Port 被加入 RunLoop 的某个 mode 后，RunLoop 会把它当作 port-based input source 监听。
+        //    这种由内核/Mach port 消息唤醒的输入源，通常就被称为 Source1。
+        // 所以这里保存的是 Port；它在 RunLoop 里的表现形式才是 port-based Source1。
         let port = Port()
         port.setDelegate(self)
         runLoop.add(port, forMode: .default)
@@ -258,7 +260,7 @@ final class RunLoopThreadLab: NSObject, PortDelegate {
         workerPort = port
         lock.unlock()
 
-        emitLog("已把 Port(Source1) 加入 worker RunLoop.default，后续可接收 Port 消息")
+        emitLog("已把 Port 加入 worker RunLoop.default；它会作为 port-based input source(Source1) 被监听")
     }
 
     fileprivate func performSource0Messages() {
@@ -310,7 +312,7 @@ final class RunLoopThreadLab: NSObject, PortDelegate {
         let payloadData = object.value(forKey: "components").flatMap { ($0 as? [Any])?.first as? Data }
         let payload = payloadData.flatMap { String(data: $0, encoding: .utf8) } ?? "nil"
         let msgid = object.value(forKey: "msgid") as? NSNumber
-        emitLog("worker 收到 Port 消息(Source1)，msgid = \(msgid?.intValue ?? -1)，payload = \(payload)")
+        emitLog("worker 通过 port-based input source(Source1) 收到 Port 消息，msgid = \(msgid?.intValue ?? -1)，payload = \(payload)")
     }
 
     private func emitLog(_ text: String) {
