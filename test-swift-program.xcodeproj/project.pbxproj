@@ -56,6 +56,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		4F96DC1E2FF2276A00D8CBE0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +78,7 @@
 		4F13B6F42E3F207400CBD297 /* test-concurrency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-concurrency.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F34E7CC2DDA3DB100352F3D /* test-gcd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-gcd.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3EB7CF2FC0A85700B3C9FB /* test_runloop */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = test_runloop; sourceTree = "<group>"; };
+		4F96DC202FF2276A00D8CBE0 /* nowcoder_practice */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = nowcoder_practice; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FA46D582FB4B45B003AB95D /* test-combine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-combine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEB3FD72EABCD6100759267 /* test-image-stretch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-image-stretch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEB3FEC2EABCD6300759267 /* test-image-stretchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "test-image-stretchTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +90,7 @@
 		5E0010000000000000000001 /* test-oc-language-features.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-oc-language-features.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F0010000000000000000001 /* test-multithreading-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-multithreading-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		600010000000000000000001 /* test-mainqueue-scroll-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-mainqueue-scroll-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		610010000000000000000001 /* time-traveler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "time-traveler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7487CA0D902043FB0A0A408 /* Pods-test-ui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-ui.debug.xcconfig"; path = "Target Support Files/Pods-test-ui/Pods-test-ui.debug.xcconfig"; sourceTree = "<group>"; };
 		B587825952AFA1B065BFCEDA /* Pods_test_ui.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test_ui.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2694598F60D54067E3FA3BF /* Pods-swift-test-cmd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-test-cmd.release.xcconfig"; path = "Target Support Files/Pods-swift-test-cmd/Pods-swift-test-cmd.release.xcconfig"; sourceTree = "<group>"; };
@@ -178,6 +189,13 @@
 			);
 			target = 600010000000000000000007 /* test-mainqueue-scroll-demo */;
 		};
+		610010000000000000000002 /* Exceptions for "time-traveler" folder in "time-traveler" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 610010000000000000000007 /* time-traveler */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -226,6 +244,11 @@
 				4F34E7DF2DDA3DB200352F3D /* Exceptions for "test-gcd" folder in "test-gcd" target */,
 			);
 			path = "test-gcd";
+			sourceTree = "<group>";
+		};
+		4F96DC212FF2276A00D8CBE0 /* nowcoder_practice */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = nowcoder_practice;
 			sourceTree = "<group>";
 		};
 		4FA46D592FB4B45B003AB95D /* test-combine */ = {
@@ -310,6 +333,14 @@
 			path = "test-mainqueue-scroll-demo";
 			sourceTree = "<group>";
 		};
+		610010000000000000000003 /* time-traveler */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				610010000000000000000002 /* Exceptions for "time-traveler" folder in "time-traveler" target */,
+			);
+			path = "time-traveler";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -358,6 +389,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4F34E7C92DDA3DB100352F3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F96DC1D2FF2276A00D8CBE0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -441,6 +479,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		610010000000000000000004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -466,6 +511,8 @@
 				5E0010000000000000000003 /* test-oc-language-features */,
 				5F0010000000000000000003 /* test-multithreading-demo */,
 				600010000000000000000003 /* test-mainqueue-scroll-demo */,
+				610010000000000000000003 /* time-traveler */,
+				4F96DC212FF2276A00D8CBE0 /* nowcoder_practice */,
 				0D71BAD22DA7EC8600191E88 /* Products */,
 				C8EC01A266D7401CEFEE5C0D /* Pods */,
 				E28C812821C0C4CEA9E479DD /* Frameworks */,
@@ -493,6 +540,8 @@
 				5E0010000000000000000001 /* test-oc-language-features.app */,
 				5F0010000000000000000001 /* test-multithreading-demo.app */,
 				600010000000000000000001 /* test-mainqueue-scroll-demo.app */,
+				610010000000000000000001 /* time-traveler.app */,
+				4F96DC202FF2276A00D8CBE0 /* nowcoder_practice */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -668,6 +717,28 @@
 			productName = "test-gcd";
 			productReference = 4F34E7CC2DDA3DB100352F3D /* test-gcd.app */;
 			productType = "com.apple.product-type.application";
+		};
+		4F96DC1F2FF2276A00D8CBE0 /* nowcoder_practice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F96DC262FF2276A00D8CBE0 /* Build configuration list for PBXNativeTarget "nowcoder_practice" */;
+			buildPhases = (
+				4F96DC1C2FF2276A00D8CBE0 /* Sources */,
+				4F96DC1D2FF2276A00D8CBE0 /* Frameworks */,
+				4F96DC1E2FF2276A00D8CBE0 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4F96DC212FF2276A00D8CBE0 /* nowcoder_practice */,
+			);
+			name = nowcoder_practice;
+			packageProductDependencies = (
+			);
+			productName = nowcoder_practice;
+			productReference = 4F96DC202FF2276A00D8CBE0 /* nowcoder_practice */;
+			productType = "com.apple.product-type.tool";
 		};
 		4FA46D572FB4B45B003AB95D /* test-combine */ = {
 			isa = PBXNativeTarget;
@@ -913,6 +984,28 @@
 			productReference = 600010000000000000000001 /* test-mainqueue-scroll-demo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		610010000000000000000007 /* time-traveler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61001000000000000000000A /* Build configuration list for PBXNativeTarget "time-traveler" */;
+			buildPhases = (
+				610010000000000000000005 /* Sources */,
+				610010000000000000000004 /* Frameworks */,
+				610010000000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				610010000000000000000003 /* time-traveler */,
+			);
+			name = "time-traveler";
+			packageProductDependencies = (
+			);
+			productName = "time-traveler";
+			productReference = 610010000000000000000001 /* time-traveler.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -944,6 +1037,9 @@
 					4F34E7CB2DDA3DB100352F3D = {
 						CreatedOnToolsVersion = 16.2;
 					};
+					4F96DC1F2FF2276A00D8CBE0 = {
+						CreatedOnToolsVersion = 26.2;
+					};
 					4FA46D572FB4B45B003AB95D = {
 						CreatedOnToolsVersion = 26.2;
 					};
@@ -968,6 +1064,9 @@
 						CreatedOnToolsVersion = 26.2;
 					};
 					5F0010000000000000000007 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					610010000000000000000007 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
@@ -1004,6 +1103,8 @@
 				5E0010000000000000000007 /* test-oc-language-features */,
 				5F0010000000000000000007 /* test-multithreading-demo */,
 				600010000000000000000007 /* test-mainqueue-scroll-demo */,
+				610010000000000000000007 /* time-traveler */,
+				4F96DC1F2FF2276A00D8CBE0 /* nowcoder_practice */,
 			);
 		};
 /* End PBXProject section */
@@ -1108,6 +1209,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		600010000000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		610010000000000000000006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1234,6 +1342,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4F96DC1C2FF2276A00D8CBE0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4FA46D542FB4B45B003AB95D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1305,6 +1420,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		600010000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		610010000000000000000005 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1752,6 +1874,28 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4F96DC242FF2276A00D8CBE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4F96DC252FF2276A00D8CBE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -2378,6 +2522,73 @@
 			};
 			name = Release;
 		};
+		610010000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "time-traveler/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "时空穿越器";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.time-traveler";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		610010000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8QRZ9H66M5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "time-traveler/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "时空穿越器";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.huchu.iosball.time-traveler";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2449,6 +2660,15 @@
 			buildConfigurations = (
 				4F34E7DD2DDA3DB200352F3D /* Debug */,
 				4F34E7DE2DDA3DB200352F3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F96DC262FF2276A00D8CBE0 /* Build configuration list for PBXNativeTarget "nowcoder_practice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F96DC242FF2276A00D8CBE0 /* Debug */,
+				4F96DC252FF2276A00D8CBE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2548,6 +2768,15 @@
 			buildConfigurations = (
 				600010000000000000000008 /* Debug */,
 				600010000000000000000009 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		61001000000000000000000A /* Build configuration list for PBXNativeTarget "time-traveler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				610010000000000000000008 /* Debug */,
+				610010000000000000000009 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
