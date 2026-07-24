@@ -9,13 +9,41 @@
 #include <sstream>
 #include <string>
 
-void testLinkedList();
-void testLinkedList2();
-void testLinkedList3();
-void testMerge();
-void testLongestSubstring();
+
+void testMergeSortedLists();
+void testLongestConsecutiveSequence();
+void testTreeNode();
+
+
+void testStringSlidingWindowAndPalindrome();
+
+
+void testFindKthFromEndNode();
+void testRemoveNthNodeFromEnd();
+
+void testAddTwoNumbers();
+void testAddStringsBigNumber();
+
+void testStockProfitAlgorithms();
+void testTreeNode();
+
 int main() {
-//    testLinkedList3();
-//    testMerge();
-    testLongestSubstring();
+    
+    //    testMergeSortedLists();
+    //    testLongestConsecutiveSequence();
+    //    testTreeNode();
+    
+    
+    //    testStringSlidingWindowAndPalindrome();
+    
+    
+//        testStockProfitAlgorithms();
+    //    testFindKthFromEndNode();
+    //    testRemoveNthNodeFromEnd();
+    
+    //    testAddTwoNumbers();
+//    testAddStringsBigNumber();
+    
+    testTreeNode();
+    
 }
